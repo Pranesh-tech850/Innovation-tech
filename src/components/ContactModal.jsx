@@ -157,7 +157,7 @@ const ContactModal = ({ onClose }) => {
                 <label>Your name</label>
 
                 <div className="input-wrapper">
-                  <User size={18} />
+                  <User size={12} />
 
                   <input
                     type="text"
@@ -176,7 +176,7 @@ const ContactModal = ({ onClose }) => {
                 <label>Email address</label>
 
                 <div className="input-wrapper">
-                  <Mail size={18} />
+                  <Mail size={12} />
 
                   <input
                     type="email"
@@ -195,7 +195,7 @@ const ContactModal = ({ onClose }) => {
                 <label>Tell us about your idea</label>
 
                 <div className="input-wrapper textarea-wrapper">
-                  <MessageSquare size={18} />
+                  <MessageSquare size={12} />
 
                   <textarea
                     name="message"

@@ -31,7 +31,6 @@
     ),
     radial-gradient(
       circle at 20% 20%,
-      var(--glow-orange),
       transparent 30%
     ),
     radial-gradient(
@@ -139,12 +138,7 @@
   color: var(--badge-color);
 
   background:
-    rgba(
-      255,
-      255,
-      255,
-      0.72
-    );
+    rgba(255, 255, 255, 0.999);
 
   border:
     1px solid

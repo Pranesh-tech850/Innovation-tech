@@ -897,71 +897,55 @@
 }
 
 
-/* =========================================
-   MOBILE
-========================================= */
-
 @media (max-width: 600px) {
 
   .contact-overlay {
-
-    padding: 14px;
-
+    padding: 20px;
+    align-items: center;
   }
-
 
   .contact-modal {
-
     padding: 26px 18px;
-
     border-radius: 22px;
 
-    /* dvh tracks the real viewport once mobile browser chrome collapses;
-       vh would leave the button under the address bar */
+    max-height: 90dvh;
+    box-sizing: border-box;
 
-    max-height: none;
-    overflow:hidden;
+    /* Allow scrolling but hide scrollbar */
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    /* Firefox */
+    scrollbar-width: none;
+
+    /* IE / Edge */
+    -ms-overflow-style: none;
   }
 
+  /* Chrome, Safari, Edge */
+  .contact-modal::-webkit-scrollbar {
+    display: none;
+  }
 
   .contact-header h2 {
-
     font-size: 26px;
-
   }
-
 
   .contact-header {
-
     margin-bottom: 18px;
-
   }
-
 
   .contact-header p {
-
     font-size: 13px;
-
   }
-
 
   .contact-close {
-
-    top: 12px;
-
+    top: 30px;
     right: 12px;
-
   }
-
-
-  /* A fixed 430px floor overflows a short phone viewport */
 
   .contact-success {
-
     min-height: auto;
-
     padding: 20px 0;
-
   }
-
 }

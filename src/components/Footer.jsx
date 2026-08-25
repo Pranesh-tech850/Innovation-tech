@@ -188,23 +188,7 @@ const Footer = () => {
           BOTTOM
       ===================================== */}
 
-      <div className="footer-bottom">
-
-        <span>
-          © 2026 Innovative blossom. All rights reserved.
-        </span>
-
-
-        <span>
-          Made with curiosity & code.
-        </span>
-
-
-        <a href="#home">
-          Back to top ↑
-        </a>
-
-      </div>
+     
 
     </footer>
   );

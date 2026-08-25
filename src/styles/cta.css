@@ -475,6 +475,11 @@
   margin-top: 28px;
 }
 
+.cta-actions h5
+{
+  font-size:15px;
+}
+
 
 /* =========================================
    PRIMARY BUTTON
@@ -504,7 +509,7 @@
     0 18px 45px
     var(--btn-primary-shadow);
 
-  font-size: 13px;
+  font-size: 16px;
 
   font-weight: 600;
 
@@ -774,6 +779,8 @@
       55px;
   }
 
+  
+  
 
   .cta-title {
     font-size: 29px;
@@ -795,6 +802,10 @@
     width: 100%;
   }
 
+  .cta-actions h5
+  {
+    font-size : 12px;
+  }
 
   .cta-primary,
   .cta-secondary {

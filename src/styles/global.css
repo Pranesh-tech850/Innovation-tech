@@ -6,7 +6,7 @@
   --blossom-blue: #3498db;
   --blossom-orange: #f39c12;
   --blossom-yellow: #f1c40f;
-  --blossom-red: #d63031;
+  --blossom-black: black;
 
   /* Primary Theme Variables */
   --primary-color: var(--brand-green);
@@ -16,7 +16,7 @@
   --accent-gradient: linear-gradient(135deg, var(--blossom-orange), var(--blossom-yellow));
 
   /* UI Highlights & Gradients */
-  --text-gradient: linear-gradient(90deg, var(--brand-green) 0%, var(--blossom-blue) 40%, var(--blossom-orange) 80%, var(--blossom-red) 100%);
+  --text-gradient: linear-gradient(90deg, var(--brand-green) 0%, var(--blossom-blue) 40%, var(--blossom-orange) 80%, var(--blossom-black) 100%);
   --btn-primary-bg: var(--primary-gradient);
   --btn-primary-shadow: rgba(136, 194, 63, 0.3);
   --btn-primary-shadow-hover: rgba(136, 194, 63, 0.45);
