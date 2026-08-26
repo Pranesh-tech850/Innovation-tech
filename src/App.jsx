@@ -8,7 +8,9 @@ import Projects from "./components/Projects";
 import CTA from "./components/CTA";
 import Footer from "./components/Footer";
 import ContactModal from "./components/ContactModal";
-
+import Design from "./components/Design";
+import Technology from "./components/Technology";
+import Innovation from "./components/Innovation";
 
 const Home = () => {
   return (
@@ -51,6 +53,10 @@ const App = () => {
             </>
           }
         />
+
+        <Route path="/design" element={<Design />} />
+        <Route path="/technology" element={<Technology />}/>
+           <Route path="/innovation" element={<Innovation />}/>
 
       </Routes>
 

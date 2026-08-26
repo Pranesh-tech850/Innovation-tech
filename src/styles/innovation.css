@@ -1,0 +1,589 @@
+.innovation-page {
+
+    position: relative;
+
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            600px circle at 5% 30%,
+            rgba(220, 242, 194, 0.55),
+            transparent 70%
+        ),
+        radial-gradient(
+            650px circle at 95% 25%,
+            rgba(225, 218, 255, 0.55),
+            transparent 70%
+        ),
+        radial-gradient(
+            600px circle at 50% 100%,
+            rgba(255, 239, 215, 0.5),
+            transparent 70%
+        ),
+        #fcfdf9;
+
+    color: #191821;
+
+    font-family: "Poppins", sans-serif;
+}
+
+
+/* ========================================
+   GLOW
+======================================== */
+
+.innovation-glow {
+
+    position: absolute;
+
+    width: 450px;
+
+    height: 450px;
+
+    border-radius: 50%;
+
+    filter: blur(130px);
+
+    pointer-events: none;
+}
+
+
+.glow-one {
+
+    top: 5%;
+
+    right: 8%;
+
+    background:
+        rgba(139, 124, 255, 0.1);
+}
+
+
+.glow-two {
+
+    bottom: -150px;
+
+    left: 10%;
+
+    background:
+        rgba(135, 201, 87, 0.08);
+}
+
+
+/* ========================================
+   NAVBAR
+======================================== */
+
+.innovation-nav {
+
+    position: relative;
+
+    z-index: 10;
+
+    height: 90px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 6vw;
+}
+
+
+.innovation-back {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color:
+        rgba(25, 24, 33, 0.65);
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition: 0.3s;
+}
+
+
+.innovation-back:hover {
+
+    color: #191821;
+
+    transform:
+        translateX(-4px);
+}
+
+
+.innovation-logo {
+
+    font-size: 13px;
+
+    letter-spacing: 2px;
+
+    color:
+        rgba(25, 24, 33, 0.55);
+}
+
+
+/* ========================================
+   HERO
+======================================== */
+
+.innovation-hero {
+
+    position: relative;
+
+    z-index: 2;
+
+    min-height:
+        calc(100vh - 170px);
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    align-items: center;
+
+    padding:
+        20px
+        6vw
+        60px;
+}
+
+
+/* ========================================
+   CONTENT
+======================================== */
+
+.innovation-content {
+
+    max-width: 650px;
+
+    animation:
+        innovationContentReveal
+        1s ease forwards;
+}
+
+
+.innovation-number {
+
+    margin-bottom: 25px;
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
+
+    color: #8b7cff;
+}
+
+
+.innovation-content h1 {
+
+    margin: 0;
+
+    font-size:
+        clamp(55px, 6vw, 95px);
+
+    line-height: 0.95;
+
+    letter-spacing: -5px;
+
+    font-weight: 600;
+}
+
+
+.innovation-content h1 span {
+
+    display: block;
+
+    background:
+        linear-gradient(
+            100deg,
+            #191821,
+            #8b7cff,
+            #5fa7b5
+        );
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color:
+        transparent;
+}
+
+
+.innovation-content p {
+
+    max-width: 500px;
+
+    margin-top: 35px;
+
+    font-size: 16px;
+
+    line-height: 1.8;
+
+    color:
+        rgba(25, 24, 33, 0.58);
+}
+
+
+/* ========================================
+   ACTIONS
+======================================== */
+
+.innovation-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 30px;
+
+    margin-top: 40px;
+}
+
+
+.innovation-cta {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding:
+        14px 20px;
+
+    border-radius: 50px;
+
+    background: #191821;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition: 0.3s;
+}
+
+
+.innovation-cta:hover {
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 15px 40px
+        rgba(25, 24, 33, 0.15);
+}
+
+
+.innovation-scroll {
+
+    font-size: 12px;
+
+    color:
+        rgba(25, 24, 33, 0.35);
+
+    letter-spacing: 1px;
+}
+
+
+/* ========================================
+   3D MODEL
+======================================== */
+
+.innovation-model {
+
+    position: relative;
+
+    height: 600px;
+
+    animation:
+        innovationModelReveal
+        1.2s ease forwards;
+}
+
+
+.innovation-model canvas {
+
+    width: 100% !important;
+
+    height: 100% !important;
+}
+
+
+.innovation-label {
+
+    position: absolute;
+
+    bottom: 20px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        9px 15px;
+
+    border:
+        1px solid
+        rgba(25, 24, 33, 0.08);
+
+    border-radius: 30px;
+
+    background:
+        rgba(255, 255, 255, 0.45);
+
+    backdrop-filter:
+        blur(15px);
+
+    color:
+        rgba(25, 24, 33, 0.55);
+
+    font-size: 11px;
+
+    white-space: nowrap;
+}
+
+
+.innovation-status {
+
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #8b7cff;
+
+    box-shadow:
+        0 0 12px
+        rgba(139, 124, 255, 0.8);
+}
+
+
+/* ========================================
+   CARDS
+======================================== */
+
+.innovation-features {
+
+    position: relative;
+
+    z-index: 5;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+
+    padding:
+        0 6vw 50px;
+}
+
+
+.innovation-card {
+
+    display: flex;
+
+    gap: 20px;
+
+    padding: 22px;
+
+    border:
+        1px solid
+        rgba(25, 24, 33, 0.07);
+
+    border-radius: 18px;
+
+    background:
+        rgba(255, 255, 255, 0.35);
+
+    backdrop-filter:
+        blur(20px);
+
+    transition: 0.35s;
+}
+
+
+.innovation-card:hover {
+
+    transform:
+        translateY(-6px);
+
+    border-color:
+        rgba(139, 124, 255, 0.25);
+}
+
+
+.innovation-card > span {
+
+    color: #8b7cff;
+
+    font-size: 12px;
+}
+
+
+.innovation-card h3 {
+
+    margin: 0;
+
+    font-size: 17px;
+}
+
+
+.innovation-card p {
+
+    margin:
+        7px 0 0;
+
+    color:
+        rgba(25, 24, 33, 0.45);
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+/* ========================================
+   ANIMATIONS
+======================================== */
+
+@keyframes innovationContentReveal {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(40px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+@keyframes innovationModelReveal {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(0.8)
+            translateX(60px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateX(0);
+    }
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 800px) {
+
+    .innovation-nav {
+
+        padding: 0 25px;
+    }
+
+
+    .innovation-logo {
+
+        font-size: 10px;
+    }
+
+
+    .innovation-hero {
+
+        grid-template-columns: 1fr;
+
+        padding:
+            30px 25px 50px;
+    }
+
+
+    .innovation-content {
+
+        text-align: center;
+
+        margin: auto;
+    }
+
+
+    .innovation-content h1 {
+
+        font-size: 52px;
+
+        letter-spacing: -3px;
+    }
+
+
+    .innovation-content p {
+
+        margin-left: auto;
+
+        margin-right: auto;
+    }
+
+
+    .innovation-actions {
+
+        justify-content: center;
+
+        flex-direction: column;
+    }
+
+
+    .innovation-model {
+
+        height: 400px;
+
+        margin-top: -30px;
+    }
+
+
+    .innovation-features {
+
+        grid-template-columns: 1fr;
+
+        padding:
+            0 25px 40px;
+    }
+
+}
