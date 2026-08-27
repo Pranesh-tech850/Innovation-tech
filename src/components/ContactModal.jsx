@@ -85,11 +85,13 @@ const ContactModal = ({ onClose }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // =========================================
-    // NAME VALIDATION
-    // =========================================
-
+    // NAME LENGTH
     if (name === "name" && value.length > 20) {
+      return;
+    }
+
+    // EMAIL LENGTH
+    if (name === "email" && value.length > 50) {
       return;
     }
 
@@ -98,10 +100,56 @@ const ContactModal = ({ onClose }) => {
       [name]: value,
     }));
 
-    // Clear email error when user starts typing again
+    // Clear error while typing
     if (name === "email") {
       setError("");
     }
+
+    if (name === "message") {
+      setError("");
+    }
+  };
+
+  // =========================================
+  // EMAIL VALIDATION
+  // =========================================
+
+  const validateEmail = (email) => {
+    // Basic email structure
+    const emailRegex =
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/;
+
+    if (!emailRegex.test(email)) {
+      return false;
+    }
+
+    // Split email
+    const parts = email.split("@");
+
+    // Must contain exactly one @
+    if (parts.length !== 2) {
+      return false;
+    }
+
+    const username = parts[0];
+    const domain = parts[1];
+
+    // Username validation
+    if (!username || username.length === 0) {
+      return false;
+    }
+
+    // Domain validation
+    if (!domain || domain.length === 0) {
+      return false;
+    }
+
+    // Check allowed domain
+    if (!allowedDomains.includes(domain)) {
+      return false;
+    }
+
+    return true;
   };
 
   // =========================================
@@ -117,8 +165,15 @@ const ContactModal = ({ onClose }) => {
     // NAME VALIDATION
     // =========================================
 
-    if (!formData.name.trim()) {
+    const name = formData.name.trim();
+
+    if (!name) {
       setError("Please enter your name.");
+      return;
+    }
+
+    if (name.length > 20) {
+      setError("Name must be less than 20 characters.");
       return;
     }
 
@@ -128,22 +183,22 @@ const ContactModal = ({ onClose }) => {
 
     const email = formData.email.trim().toLowerCase();
 
-    // Basic email structure validation
-    const emailRegex =
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/;
-
-    if (!emailRegex.test(email)) {
-      setError("Please enter a valid email address.");
+    // Empty email
+    if (!email) {
+      setError("Please enter your email address.");
       return;
     }
 
-    // Get domain after @
-    const domain = email.split("@")[1];
+    // Maximum email length
+    if (email.length > 50) {
+      setError("Email must be less than 50 characters.");
+      return;
+    }
 
-    // Check allowed domain
-    if (!allowedDomains.includes(domain)) {
+    // Validate email + domain
+    if (!validateEmail(email)) {
       setError(
-        "Please use a valid email provider such as Gmail, Yahoo, Outlook, Hotmail, or iCloud."
+        "Please enter a valid email using Gmail, Yahoo, Outlook, Hotmail, iCloud, or Innovative Blossom."
       );
       return;
     }
@@ -152,8 +207,15 @@ const ContactModal = ({ onClose }) => {
     // MESSAGE VALIDATION
     // =========================================
 
-    if (!formData.message.trim()) {
+    const message = formData.message.trim();
+
+    if (!message) {
       setError("Please enter your message.");
+      return;
+    }
+
+    if (message.length < 20) {
+      setError("Please enter at least 20 characters in your message.");
       return;
     }
 
@@ -168,9 +230,9 @@ const ContactModal = ({ onClose }) => {
         "service_xxrjjjn",
         "template_i9q1xj5",
         {
-          name: formData.name,
+          name: name,
           email: email,
-          message: formData.message,
+          message: message,
         },
         "y6remiBz2oGBevixD"
       );
@@ -233,7 +295,6 @@ const ContactModal = ({ onClose }) => {
 
         {!submitted ? (
           <>
-
             {/* =========================================
                 HEADER
             ========================================= */}
@@ -294,10 +355,6 @@ const ContactModal = ({ onClose }) => {
 
                 </div>
 
-                <small>
-                  {formData.name.length}/20
-                </small>
-
               </div>
 
               {/* EMAIL */}
@@ -316,19 +373,14 @@ const ContactModal = ({ onClose }) => {
                     id="email"
                     type="email"
                     name="email"
-                    placeholder="john@example.com"
+                    placeholder="john@gmail.com"
                     value={formData.email}
                     onChange={handleChange}
+                    maxLength={50}
                     required
                   />
 
                 </div>
-
-                {error && (
-                  <p className="contact-error">
-                    {error}
-                  </p>
-                )}
 
               </div>
 
@@ -358,6 +410,14 @@ const ContactModal = ({ onClose }) => {
 
               </div>
 
+              {/* ERROR */}
+
+              {error && (
+                <p className="contact-error">
+                  {error}
+                </p>
+              )}
+
               {/* SEND BUTTON */}
 
               <button
@@ -373,7 +433,6 @@ const ContactModal = ({ onClose }) => {
               </button>
 
             </form>
-
           </>
         ) : (
 
