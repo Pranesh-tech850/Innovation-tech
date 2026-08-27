@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 
 import {
   X,
-  Send,
   User,
   Mail,
   MessageSquare,
@@ -17,6 +16,10 @@ import "../styles/contact-modal.css";
 const ContactModal = ({ onClose }) => {
   const navigate = useNavigate();
 
+  // =========================================
+  // FORM STATE
+  // =========================================
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,47 +27,25 @@ const ContactModal = ({ onClose }) => {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [range,setRange] = useState("");
 
   // =========================================
-  // CLOSE
+  // CLOSE MODAL
   // =========================================
 
-  const closeModal = () => navigate("/");
+  const closeModal = () => {
+    if (onClose) {
+      onClose();
+    } else {
+      navigate("/");
+    }
+  };
 
   // =========================================
   // MODAL BEHAVIOUR
-  // Home renders underneath now, so the page behind must not scroll
-  // and Escape has to dismiss.
   // =========================================
-
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await emailjs.send(
-        "service_xxrjjjn",
-        "template_i9q1xj5",
-        {
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-        },
-        "y6remiBz2oGBevixD",
-      );
-
-  
-      console.log("Mail message :", response);
-      setSubmitted(true);
-      setFormData({
-        name: "",
-        email: "",
-        message: "",
-      });
-    } catch (error) {
-      console.error(error);
-
-    }
-  };
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -73,7 +54,7 @@ const ContactModal = ({ onClose }) => {
 
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
-        navigate("/");
+        closeModal();
       }
     };
 
@@ -83,7 +64,7 @@ const ContactModal = ({ onClose }) => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [navigate]);
+  }, []);
 
   // =========================================
   // HANDLE INPUT
@@ -99,36 +80,88 @@ const ContactModal = ({ onClose }) => {
   };
 
   // =========================================
-  // SUBMIT
+  // SEND MESSAGE
   // =========================================
 
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+   
+     setRange("");
+     setError("");
+    // Extra email format validation
+    if(formData.name.length > 20)
+    {
+      setRange("Character must be less than 20 characters");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    if (!emailRegex.test(formData.email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const response = await emailjs.send(
+        "service_xxrjjjn",
+        "template_i9q1xj5",
+        {
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        },
+        "y6remiBz2oGBevixD",
+      );
+
+      console.log("Mail message:", response);
+
+      // Show success screen
+      setSubmitted(true);
+
+      // Clear form
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // =========================================
+  // UI
+  // =========================================
 
   return (
     <div className="contact-overlay">
       {/* Background particles */}
-
       <div className="contact-particle particle-one"></div>
       <div className="contact-particle particle-two"></div>
       <div className="contact-particle particle-three"></div>
       <div className="contact-particle particle-four"></div>
 
       {/* Modal */}
-
       <div className="contact-modal">
         {/* Glow */}
-
         <div className="contact-modal-glow"></div>
 
-        {/* Close */}
-
-        <button className="contact-close" onClick={closeModal}>
+        {/* Close button */}
+        <button type="button" className="contact-close" onClick={closeModal}>
           <X size={20} />
         </button>
 
         {!submitted ? (
           <>
-            {/* Header */}
+            {/* =========================================
+                HEADER
+            ========================================= */}
 
             <div className="contact-header">
               <div className="contact-icon">
@@ -148,18 +181,20 @@ const ContactModal = ({ onClose }) => {
               </p>
             </div>
 
-            {/* Form */}
+            {/* =========================================
+                FORM
+            ========================================= */}
 
             <form className="contact-form" onSubmit={handleSendMessage}>
               {/* NAME */}
-
               <div className="contact-field">
-                <label>Your name</label>
+                <label htmlFor="name">Your name</label>
 
                 <div className="input-wrapper">
                   <User size={12} />
 
                   <input
+                    id="name"
                     type="text"
                     name="name"
                     placeholder="John Doe"
@@ -167,18 +202,23 @@ const ContactModal = ({ onClose }) => {
                     onChange={handleChange}
                     required
                   />
+
+                </div>
+
+                <div>
+                  {range && <p className="range-error">{range}</p>}
                 </div>
               </div>
 
               {/* EMAIL */}
-
               <div className="contact-field">
-                <label>Email address</label>
+                <label htmlFor="email">Email address</label>
 
                 <div className="input-wrapper">
                   <Mail size={12} />
 
                   <input
+                    id="email"
                     type="email"
                     name="email"
                     placeholder="john@example.com"
@@ -186,18 +226,22 @@ const ContactModal = ({ onClose }) => {
                     onChange={handleChange}
                     required
                   />
+             
+                </div>
+                    <div className="error-mg">
+                  {error && <p className="contact-error">{error}</p>}
                 </div>
               </div>
 
               {/* MESSAGE */}
-
               <div className="contact-field">
-                <label>Tell us about your idea</label>
+                <label htmlFor="message">Tell us about your idea</label>
 
                 <div className="input-wrapper textarea-wrapper">
                   <MessageSquare size={12} />
 
                   <textarea
+                    id="message"
                     name="message"
                     placeholder="I'd like to build..."
                     value={formData.message}
@@ -208,18 +252,20 @@ const ContactModal = ({ onClose }) => {
                 </div>
               </div>
 
-              {/* SEND */}
-
-              <button type="submit" className="contact-submit">
-                <span>Send Message</span>
-               
+              {/* SEND BUTTON */}
+              <button
+                type="submit"
+                className="contact-submit"
+                disabled={loading}
+              >
+                <span>{loading ? "Sending..." : "Send Message"}</span>
               </button>
-
-             
             </form>
           </>
         ) : (
-          /* SUCCESS */
+          /* =========================================
+             SUCCESS SCREEN
+          ========================================= */
 
           <div className="contact-success">
             <div className="success-icon">
@@ -228,9 +274,16 @@ const ContactModal = ({ onClose }) => {
 
             <h2>Message sent!</h2>
 
-            <p>Thanks for reaching out. Our team innovative blossom will get  back to you soon.</p>
+            <p>
+              Thanks for reaching out. Our team at Innovative Blossom will get
+              back to you soon.
+            </p>
 
-            <button className="success-button" onClick={closeModal}>
+            <button
+              type="button"
+              className="success-button"
+              onClick={closeModal}
+            >
               Done
             </button>
           </div>

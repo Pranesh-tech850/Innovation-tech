@@ -7,10 +7,12 @@ import Features from "./components/Features";
 import Projects from "./components/Projects";
 import CTA from "./components/CTA";
 import Footer from "./components/Footer";
+
 import ContactModal from "./components/ContactModal";
 import Design from "./components/Design";
 import Technology from "./components/Technology";
 import Innovation from "./components/Innovation";
+
 
 const Home = () => {
   return (
@@ -36,14 +38,14 @@ const App = () => {
 
       <Routes>
 
+        {/* HOME */}
         <Route
           path="/"
           element={<Home />}
         />
 
-        {/* Home stays mounted underneath so this reads as a modal over
-            the landing page instead of a full-page takeover */}
 
+        {/* CONTACT */}
         <Route
           path="/contact"
           element={
@@ -54,9 +56,41 @@ const App = () => {
           }
         />
 
-        <Route path="/design" element={<Design />} />
-        <Route path="/technology" element={<Technology />}/>
-           <Route path="/innovation" element={<Innovation />}/>
+
+        {/* DESIGN POPUP */}
+        <Route
+          path="/design"
+          element={
+            <>
+              <Home />
+              <Design />
+            </>
+          }
+        />
+
+
+        {/* TECHNOLOGY POPUP */}
+        <Route
+          path="/technology"
+          element={
+            <>
+              <Home />
+              <Technology />
+            </>
+          }
+        />
+
+
+        {/* INNOVATION POPUP */}
+        <Route
+          path="/innovation"
+          element={
+            <>
+              <Home />
+              <Innovation />
+            </>
+          }
+        />
 
       </Routes>
 

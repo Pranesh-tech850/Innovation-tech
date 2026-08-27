@@ -8,7 +8,7 @@ import {
 
 import "../styles/navbar.css";
 
-import IB_LOGO from "../assets/models/IB_LOGO.png";
+import IB_LOGO from "../images/IB_LOGO.jpg";
 
 import { Link,useNavigate } from "react-router-dom";
 

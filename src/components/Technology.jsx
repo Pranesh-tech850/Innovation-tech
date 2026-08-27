@@ -1,702 +1,268 @@
-import React, { useRef } from "react";
-import { Link } from "react-router-dom";
-import {
-    ArrowLeft,
-    ArrowUpRight
-} from "lucide-react";
-
-import {
-    Canvas,
-    useFrame
-} from "@react-three/fiber";
-
-import {
-    Float,
-    Environment
-} from "@react-three/drei";
-
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/technology.css";
-
-
-// ========================================
-// TECHNOLOGY CORE
-// ========================================
-
-const TechnologyCore = () => {
-
-    const groupRef = useRef();
-
-    const ringOne = useRef();
-    const ringTwo = useRef();
-    const ringThree = useRef();
-
-    useFrame((state) => {
-
-        const time =
-            state.clock.elapsedTime;
-
-
-        // Main group rotation
-
-        if (groupRef.current) {
-
-            groupRef.current.rotation.y =
-                time * 0.15;
-
-            groupRef.current.rotation.x =
-                Math.sin(time * 0.3) * 0.12;
-
-            groupRef.current.position.y =
-                Math.sin(time * 0.8) * 0.12;
-        }
-
-
-        // Outer ring
-
-        if (ringOne.current) {
-
-            ringOne.current.rotation.x =
-                time * 0.45;
-
-            ringOne.current.rotation.z =
-                time * 0.2;
-        }
-
-
-        // Second ring
-
-        if (ringTwo.current) {
-
-            ringTwo.current.rotation.y =
-                -time * 0.35;
-
-            ringTwo.current.rotation.x =
-                Math.sin(time * 0.4) * 0.4;
-        }
-
-
-        // Third ring
-
-        if (ringThree.current) {
-
-            ringThree.current.rotation.z =
-                time * 0.55;
-
-            ringThree.current.rotation.y =
-                time * 0.15;
-        }
-
-    });
-
-
-    return (
-
-        <Float
-            speed={1.5}
-            floatIntensity={0.8}
-            rotationIntensity={0.15}
-        >
-
-            <group ref={groupRef}>
-
-
-                {/* =================================
-                    OUTER BLACK RING
-                ================================= */}
-
-                <mesh ref={ringOne}>
-
-                    <torusGeometry
-                        args={[
-                            1.75,
-                            0.025,
-                            16,
-                            100
-                        ]}
-                    />
-
-                    <meshStandardMaterial
-                        color="#92ba92"
-                        emissive="#617c61"
-                        emissiveIntensity={0.5}
-                        metalness={0.95}
-                        roughness={0.18}
-                    />
-
-                </mesh>
-
-
-                {/* =================================
-                    SECOND DARK RING
-                ================================= */}
-
-                <mesh
-                    ref={ringTwo}
-                    rotation={[
-                        Math.PI / 2,
-                        0,
-                        0
-                    ]}
-                >
-
-                    <torusGeometry
-                        args={[
-                            1.35,
-                            0.035,
-                            16,
-                            100
-                        ]}
-                    />
-
-                    <meshStandardMaterial
-                        color="#027457"
-                        emissive="#22aa71"
-                        emissiveIntensity={0.7}
-                        metalness={0.95}
-                        roughness={0.2}
-                    />
-
-                </mesh>
-
-
-                {/* =================================
-                    THIRD DARK RING
-                ================================= */}
-
-                <mesh
-                    ref={ringThree}
-                    rotation={[
-                        0.8,
-                        0.4,
-                        0
-                    ]}
-                >
-
-                    <torusGeometry
-                        args={[
-                            1.05,
-                            0.025,
-                            16,
-                            100
-                        ]}
-                    />
-
-                    <meshStandardMaterial
-                        color="#bad4c7"
-                        emissive="#19a361"
-                        emissiveIntensity={0.6}
-                        metalness={1}
-                        roughness={0.15}
-                    />
-
-                </mesh>
-
-
-                {/* =================================
-                    DARK CENTRAL CORE
-                ================================= */}
-
-                <mesh
-                    rotation={[
-                        0.4,
-                        0.4,
-                        0
-                    ]}
-                >
-
-                    <icosahedronGeometry
-                        args={[
-                            0.72,
-                            2
-                        ]}
-                    />
-
-                    <meshPhysicalMaterial
-                        color="#eceeed"
-                        transmission={0.35}
-                        thickness={1}
-                        roughness={0.12}
-                        metalness={0.85}
-                        transparent
-                        opacity={0.95}
-                    />
-
-                </mesh>
-
-
-                {/* =================================
-                    INNER TECHNOLOGY CORE
-                ================================= */}
-
-                <mesh>
-
-                    <sphereGeometry
-                        args={[
-                            0.27,
-                            32,
-                            32
-                        ]}
-                    />
-
-                    <meshStandardMaterial
-                        color="#52685c"
-                        emissive="#30483a"
-                        emissiveIntensity={2}
-                        metalness={0.7}
-                        roughness={0.18}
-                    />
-
-                </mesh>
-
-
-                {/* =================================
-                    TOP NODE
-                ================================= */}
-
-                <mesh
-                    position={[
-                        0,
-                        1.7,
-                        0
-                    ]}
-                >
-
-                    <sphereGeometry
-                        args={[
-                            0.055,
-                            16,
-                            16
-                        ]}
-                    />
-
-                    <meshStandardMaterial
-                        color="#6c8174"
-                        emissive="#40564a"
-                        emissiveIntensity={2}
-                    />
-
-                </mesh>
-
-
-                {/* =================================
-                    RIGHT NODE
-                ================================= */}
-
-                <mesh
-                    position={[
-                        1.6,
-                        0.7,
-                        0
-                    ]}
-                >
-
-                    <sphereGeometry
-                        args={[
-                            0.06,
-                            16,
-                            16
-                        ]}
-                    />
-
-                    <meshStandardMaterial
-                        color="#59645f"
-                        emissive="#303b35"
-                        emissiveIntensity={2}
-                    />
-
-                </mesh>
-
-
-                {/* =================================
-                    LEFT NODE
-                ================================= */}
-
-                <mesh
-                    position={[
-                        -1.6,
-                        -0.5,
-                        0
-                    ]}
-                >
-
-                    <sphereGeometry
-                        args={[
-                            0.055,
-                            16,
-                            16
-                        ]}
-                    />
-
-                    <meshStandardMaterial
-                        color="#66736b"
-                        emissive="#36443b"
-                        emissiveIntensity={2}
-                    />
-
-                </mesh>
-
-
-                {/* =================================
-                    BOTTOM NODE
-                ================================= */}
-
-                <mesh
-                    position={[
-                        0.7,
-                        -1.5,
-                        0.2
-                    ]}
-                >
-
-                    <sphereGeometry
-                        args={[
-                            0.05,
-                            16,
-                            16
-                        ]}
-                    />
-
-                    <meshStandardMaterial
-                        color="#515c56"
-                        emissive="#2c3831"
-                        emissiveIntensity={2}
-                    />
-
-                </mesh>
-
-
-            </group>
-
-        </Float>
-    );
-};
-
-
-// ========================================
-// TECHNOLOGY PAGE
-// ========================================
+import tech1 from "../images/tech1.jpg"
+import tech2 from "../images/tech2.jpg"
+import tech3 from "../images/tech3.jpg";
 
 const Technology = () => {
 
-    return (
+  const navigate = useNavigate();
 
-        <div className="technology-page">
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
 
+    document.body.style.overflow = "hidden";
 
-            {/* =================================
-                BACKGROUND GLOWS
-            ================================= */}
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        navigate("/");
+      }
+    };
 
-            <div
-                className="technology-glow glow-one"
-            />
+    window.addEventListener("keydown", handleKeyDown);
 
-            <div
-                className="technology-glow glow-two"
-            />
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [navigate]);
 
 
-            {/* =================================
-                NAVBAR
-            ================================= */}
+  return (
+    <div className="technology-overlay">
 
-            <nav className="technology-nav">
+      <div className="technology-modal">
 
-                <Link
-                    to="/"
-                    className="technology-back"
-                >
+        {/* Close Button */}
 
-                    <ArrowLeft
-                        size={18}
-                    />
+        <button
+          className="technology-close"
+          onClick={() => navigate("/")}
+        >
+          ×
+        </button>
 
-                    <span>
-                        Back
-                    </span>
 
-                </Link>
+        {/* Header */}
 
+        <div className="technology-header">
 
-                <div className="technology-logo">
+          
 
-                    INNOVATIVE BLOSSOM
+          <h2>
+            Powerful Technology
+          </h2>
 
-                </div>
-
-            </nav>
-
-
-            {/* =================================
-                HERO
-            ================================= */}
-
-            <main className="technology-hero">
-
-
-                {/* =================================
-                    LEFT CONTENT
-                ================================= */}
-
-                <section className="technology-content">
-
-                    <div className="technology-number">
-
-                        02 — POWERFUL TECHNOLOGY
-
-                    </div>
-
-
-                    <h1>
-
-                        Technology
-
-                        <span>
-                            that moves
-                        </span>
-
-                        ideas forward.
-
-                    </h1>
-
-
-                    <p>
-
-                        We build intelligent, scalable
-                        and reliable technology that
-                        transforms ideas into powerful
-                        digital experiences.
-
-                    </p>
-
-
-                    {/* =================================
-                        ACTIONS
-                    ================================= */}
-
-                    <div className="technology-actions">
-
-                        <Link
-                            to="/contact"
-                            className="technology-cta"
-                        >
-
-                            Let's build
-
-                            <ArrowUpRight
-                                size={20}
-                            />
-
-                        </Link>
-
-
-                        <span className="technology-scroll">
-
-                            Scroll to explore
-
-                        </span>
-
-                    </div>
-
-                </section>
-
-
-                {/* =================================
-                    3D MODEL
-                ================================= */}
-
-                <section className="technology-model">
-
-                    <Canvas
-                        camera={{
-                            position: [
-                                0,
-                                0,
-                                6
-                            ],
-                            fov: 42
-                        }}
-                    >
-
-                        {/* =================================
-                            LIGHTING
-                        ================================= */}
-
-                        <ambientLight
-                            intensity={1.2}
-                        />
-
-
-                        <directionalLight
-                            position={[
-                                4,
-                                5,
-                                5
-                            ]}
-                            intensity={2.5}
-                            color="#ffffff"
-                        />
-
-
-                        {/* Dark green light */}
-
-                        <pointLight
-                            position={[
-                                -4,
-                                2,
-                                3
-                            ]}
-                            intensity={3}
-                            color="#182018"
-                        />
-
-
-                        {/* Dark teal light */}
-
-                        <pointLight
-                            position={[
-                                4,
-                                -2,
-                                2
-                            ]}
-                            intensity={2.5}
-                            color="#172022"
-                        />
-
-
-                        {/* Dark neutral light */}
-
-                        <pointLight
-                            position={[
-                                0,
-                                3,
-                                4
-                            ]}
-                            intensity={1.5}
-                            color="#111111"
-                        />
-
-
-                        {/* =================================
-                            3D TECHNOLOGY OBJECT
-                        ================================= */}
-
-                        <TechnologyCore />
-
-
-                        {/* =================================
-                            ENVIRONMENT
-                        ================================= */}
-
-                        <Environment
-                            preset="studio"
-                            environmentIntensity={0.8}
-                        />
-
-                    </Canvas>
-
-
-                    {/* =================================
-                        MODEL LABEL
-                    ================================= */}
-
-                    <div className="technology-label">
-
-                        <span className="technology-status" />
-
-                        Intelligent Systems
-
-                    </div>
-
-                </section>
-
-            </main>
-
-
-            {/* =================================
-                FEATURE CARDS
-            ================================= */}
-
-            <section className="technology-features">
-
-
-                {/* CARD 1 */}
-
-                <div className="technology-card">
-
-                    <span>
-                        01
-                    </span>
-
-                    <div>
-
-                        <h3>
-                            Scalable
-                        </h3>
-
-                        <p>
-                            Technology designed
-                            to grow with your ideas.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                {/* CARD 2 */}
-
-                <div className="technology-card">
-
-                    <span>
-                        02
-                    </span>
-
-                    <div>
-
-                        <h3>
-                            Intelligent
-                        </h3>
-
-                        <p>
-                            Smart systems that
-                            turn data into decisions.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                {/* CARD 3 */}
-
-                <div className="technology-card">
-
-                    <span>
-                        03
-                    </span>
-
-                    <div>
-
-                        <h3>
-                            Reliable
-                        </h3>
-
-                        <p>
-                            Robust technology
-                            built for real-world use.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-            </section>
+          <p>
+            We combine modern technologies, scalable architecture and
+            intelligent solutions to build fast, reliable and future-ready
+            digital products.
+          </p>
 
         </div>
-    );
-};
 
+
+        {/* Technology Showcase */}
+
+        <div className="technology-gallery">
+
+          <div className="technology-image-card large">
+
+            <img
+              src={tech3}
+              alt="Modern technology workspace"
+            />
+
+            <div className="technology-image-overlay">
+
+              <span>01</span>
+
+              <h3>
+                Modern Stack
+              </h3>
+
+            </div>
+
+          </div>
+
+
+          <div className="technology-image-card">
+
+            <img
+              src={tech2}
+              alt="Software development"
+            />
+
+            <div className="technology-image-overlay">
+
+              <span>02</span>
+
+              <h3>
+                Smart Development
+              </h3>
+
+            </div>
+
+          </div>
+
+
+          <div className="technology-image-card">
+
+            <img
+              src={tech1}
+              alt="Cloud technology"
+            />
+
+            <div className="technology-image-overlay">
+
+              <span>03</span>
+
+              <h3>
+                Cloud Solutions
+              </h3>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        {/* Technology Statistics */}
+
+        {/* <div className="technology-info">
+
+          <div className="technology-info-item">
+
+            <span>✦</span>
+
+            <div>
+              <strong>15+</strong>
+              <p>Technologies Used</p>
+            </div>
+
+          </div>
+
+
+          <div className="technology-info-item">
+
+            <span>✦</span>
+
+            <div>
+              <strong>20+</strong>
+              <p>Projects Built</p>
+            </div>
+
+          </div>
+
+
+          <div className="technology-info-item">
+
+            <span>✦</span>
+
+            <div>
+              <strong>99%</strong>
+              <p>Performance Focus</p>
+            </div>
+
+          </div>
+
+        </div> */}
+
+
+        {/* Technology Stack */}
+
+        <div className="technology-stack">
+
+          <span className="technology-section-label">
+            OUR TECHNOLOGY STACK
+          </span>
+
+
+          <div className="technology-stack-list">
+
+            <div className="technology-stack-item">
+
+              <span>01</span>
+
+              <div>
+                <h3>Frontend</h3>
+
+                <p>
+                  React, JavaScript, HTML, CSS and modern UI systems.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div className="technology-stack-item">
+
+              <span>02</span>
+
+              <div>
+                <h3>Backend</h3>
+
+                <p>
+                  Node.js, APIs and scalable server-side architecture.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div className="technology-stack-item">
+
+              <span>03</span>
+
+              <div>
+                <h3>Database</h3>
+
+                <p>
+                  Reliable data systems designed for performance and scale.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div className="technology-stack-item">
+
+              <span>04</span>
+
+              <div>
+                <h3>Cloud</h3>
+
+                <p>
+                  Flexible infrastructure and deployment solutions.
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        {/* Bottom Message */}
+
+        <div className="technology-bottom">
+
+          <span>BUILD • SCALE • INNOVATE</span>
+
+          <p>
+            Technology should not just solve today's problems.
+            It should prepare your product for tomorrow.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+  );
+};
 
 export default Technology;

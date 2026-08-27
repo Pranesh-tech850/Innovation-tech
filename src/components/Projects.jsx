@@ -2,8 +2,8 @@
 import React from "react";
 import { ArrowUpRight, Sparkles } from "lucide-react";
 
-import togetherEvents from "../assets/models/fab20616-f4ae-4a42-a739-afaaf616c08e.png";
-import cMyRoutes from "../assets/models/cMyRoutes.png";
+import togetherEvents from "../images/togather.png";
+
 
 import "../styles/projects.css";
 

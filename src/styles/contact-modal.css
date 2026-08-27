@@ -620,6 +620,41 @@
 
 }
 
+/* error part */
+.contact-error {
+  color: #ff5c7a;
+  font-size: 12px;
+  font-weight: 500;
+  margin: 6px 0 0 4px;
+  display:block;
+  align-items: center;
+  gap: 5px;
+  animation: errorFade 0.2s ease-in-out;
+}
+
+.range-error{
+   color: #ff5c7a;
+    font-size: 12px;
+  font-weight: 500;
+  margin: 6px 0 0 4px;
+  display:block;
+  align-items: center;
+  gap: 5px;
+  animation: errorFade 0.2s ease-in-out;
+}
+
+@keyframes errorFade {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 .contact-success p {
 

@@ -44,7 +44,7 @@ const Features = () => {
         ===================================== */}
 
         <div className="feature-card feature-card-purple">
-          <div className="feature-number">01</div>
+        
 
           <div className="feature-icon">
             <Sparkles size={27} />
@@ -71,7 +71,7 @@ const Features = () => {
         ===================================== */}
 
         <div className="feature-card feature-card-blue">
-          <div className="feature-number">02</div>
+      
 
           <div className="feature-icon">
             <Layers3 size={27} />
@@ -98,7 +98,7 @@ const Features = () => {
         ===================================== */}
 
         <div className="feature-card feature-card-orange">
-          <div className="feature-number">03</div>
+     
 
           <div className="feature-icon">
             <Zap size={27} />

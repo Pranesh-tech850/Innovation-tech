@@ -1,587 +1,910 @@
-.design-page {
-    position: relative;
-    min-height: 100vh;
-    overflow: hidden;
+/* =========================================================
+   DESIGN MODAL
+========================================================= */
 
- 
-  background:
-    /* dissolves into the Features section — kills the seam */
-    linear-gradient(
-      to bottom,
-      rgba(253, 254, 251, 0) 62%,
-      #fdfefb 100%
-    ),
-    radial-gradient(
-      circle at 78% 42%,
-      var(--glow-green),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 20% 20%,
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 85% 90%,
-      var(--glow-blue),
-      transparent 28%
-    ),
-    linear-gradient(
-      135deg,
-      #ffffff 0%,
-      #f9fbf4 45%,
-      #f2f9e6 100%
-    );
 
-    font-family: "Poppins", sans-serif;
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+.design-overlay {
+  position: fixed;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  background: rgba(0, 0, 0, 0.48);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  overflow: hidden;
+
+  z-index: 99999;
+
+  animation: designOverlayIn 0.4s ease forwards;
 }
 
 
-/* =========================
-   Background glow
-========================= */
+/* =========================================================
+   MODAL
+========================================================= */
 
-.design-glow {
-    position: absolute;
+.design-modal {
+  position: relative;
 
-    width: 450px;
-    height: 450px;
+  width: 100%;
+  max-width: 100%;
 
-    border-radius: 50%;
+  max-height: 84vh;
 
-    filter: blur(120px);
+  overflow-y: auto;
 
-    pointer-events: none;
-}
+  padding: 48px;
 
-.glow-one {
-    top: 15%;
-    right: 10%;
+  background: #ffffff;
 
-    background: rgba(250, 250, 255, 0.12);
-}
+  border: 1px solid rgba(0, 0, 0, 0.06);
 
-.glow-two {
-    bottom: -150px;
-    left: -100px;
+  border-radius: 25px;
 
-    background: rgba(45, 210, 160, 0.08);
-}
+  box-shadow:
+    0 40px 100px rgba(0, 0, 0, 0.25),
+    0 10px 30px rgba(0, 0, 0, 0.08);
 
+  animation:
+    designModalIn
+    0.6s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
 
-/* =========================
-   Navbar
-========================= */
-
-.design-nav {
-    position: relative;
-    z-index: 10;
-
-    height: 90px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 6vw;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 
-.back-button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+/* Chrome / Safari / Edge */
 
-    color: rgba(32, 30, 30, 0.7);
-
-    text-decoration: none;
-
-    font-size: 14px;
-
-    transition: 0.3s;
-}
-
-.back-button:hover {
-    color: black;
-    transform: translateX(-4px);
+.design-modal::-webkit-scrollbar {
+  display: none;
 }
 
 
-.design-logo {
-    font-size: 13px;
-    letter-spacing: 2px;
+/* =========================================================
+   TOP ACCENT LINE
+========================================================= */
 
-    color: black;
+.design-modal::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 0;
+  height: 4px;
+
+  background: #111111;
+
+  border-radius: 30px 30px 0 0;
+
+  animation:
+    designAccent
+    0.8s
+    ease
+    0.25s
+    forwards;
 }
 
 
-/* =========================
-   Hero
-========================= */
+/* =========================================================
+   DECORATIVE CIRCLE
+========================================================= */
 
-.design-hero {
+.design-modal::after {
+  content: "";
 
-    position: relative;
-    z-index: 2;
+  position: absolute;
 
-    min-height: calc(100vh - 170px);
+  top: -100px;
+  right: -100px;
 
-    display: grid;
+  width: 220px;
+  height: 220px;
 
-    grid-template-columns:
-        1fr 1fr;
+  border-radius: 50%;
 
-    align-items: center;
+  background: rgba(0, 0, 0, 0.025);
 
-    padding:
-        20px
-        6vw
-        60px;
+  pointer-events: none;
+
+  animation:
+    designFloatingCircle
+    6s
+    ease-in-out
+    infinite;
 }
 
 
-/* =========================
-   Content
-========================= */
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
 
-.design-content {
-    max-width: 650px;
+.design-close {
+  position: absolute;
 
-    animation:
-        contentReveal 1s
-        ease forwards;
+  top: 20px;
+  right: 20px;
+
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e5e5e5;
+
+  border-radius: 50%;
+
+  background: #f5f5f5;
+
+  color: #111111;
+
+  font-size: 25px;
+  font-weight: 400;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  z-index: 10;
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
+
+/* =========================================================
+   CLOSE HOVER
+========================================================= */
+
+.design-close:hover {
+  background: #111111;
+
+  color: #ffffff;
+
+  border-color: #111111;
+
+  transform:
+    rotate(90deg)
+    scale(1.08);
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.18);
+}
+
+
+/* =========================================================
+   CLOSE ACTIVE
+========================================================= */
+
+.design-close:active {
+  transform:
+    rotate(90deg)
+    scale(0.94);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.design-header {
+  position: relative;
+
+  padding-right: 60px;
+
+  margin-bottom: 36px;
+
+  animation:
+    designContentIn
+    0.6s
+    ease
+    0.15s
+    both;
+}
+
+
+/* =========================================================
+   SMALL LABEL
+========================================================= */
 
 .design-number {
+  display: inline-flex;
+  align-items: center;
 
-    margin-bottom: 25px;
+  margin-bottom: 16px;
 
-    font-size: 12px;
+  font-size: 10px;
+  font-weight: 600;
 
-    letter-spacing: 3px;
-    color: black;
+  letter-spacing: 2.5px;
+
+  color: #888888;
 }
 
 
-.design-content h1 {
+/* Small line before label */
 
-    margin: 0;
+.design-number::before {
+  content: "";
 
-    font-size: clamp(
-        55px,
-        6vw,
-        95px
+  width: 24px;
+  height: 1px;
+
+  margin-right: 10px;
+
+  background: #111111;
+}
+
+
+/* =========================================================
+   MAIN HEADING
+========================================================= */
+
+.design-modal h2 {
+  margin: 0 0 18px;
+
+  font-size: clamp(32px, 5vw, 48px);
+
+  font-weight: 700;
+
+  line-height: 1.05;
+
+  letter-spacing: -2px;
+
+  color: #111111;
+}
+
+
+/* =========================================================
+   HEADER DESCRIPTION
+========================================================= */
+
+.design-header p {
+  max-width: 600px;
+
+  margin: 0;
+
+  font-size: 15px;
+
+  line-height: 1.8;
+
+  color: #6d6d6d;
+}
+
+
+/* =========================================================
+   IMAGE GALLERY
+========================================================= */
+
+.design-gallery {
+  display: grid;
+
+  grid-template-columns: 1.4fr 1fr;
+
+  grid-template-rows: 180px 180px;
+
+  gap: 14px;
+
+  margin-bottom: 38px;
+
+  animation:
+    designContentIn
+    0.7s
+    ease
+    0.25s
+    both;
+}
+
+
+/* =========================================================
+   IMAGE CARD
+========================================================= */
+
+.design-image-card {
+  position: relative;
+
+  height: 180px;
+
+  overflow: hidden;
+
+  border-radius: 18px;
+
+  background: #eeeeee;
+
+  cursor: pointer;
+}
+
+
+/* Large image */
+
+.design-image-card.large {
+  grid-row: span 2;
+
+  height: 374px;
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.design-image-card img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  filter: grayscale(100%);
+
+  transition:
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.5s ease;
+}
+
+
+/* =========================================================
+   IMAGE HOVER
+========================================================= */
+
+.design-image-card:hover img {
+  transform: scale(1.08);
+
+  filter: grayscale(0%);
+}
+
+
+/* =========================================================
+   IMAGE DARK GRADIENT
+========================================================= */
+
+.design-image-card::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.7),
+      transparent 55%
     );
 
-    line-height: 0.95;
+  opacity: 0;
 
-    letter-spacing: -5px;
+  transition:
+    opacity 0.4s ease;
 
-    font-weight: 600;
+  pointer-events: none;
 }
 
 
-.design-content h1 span {
-
-    display: block;
-
-    background:
-        linear-gradient(
-            100deg,
-            #711616,
-            #000000,
-            #1e1f1f
-        );
-
-    -webkit-background-clip: text;
-
-    -webkit-text-fill-color:
-        transparent;
+.design-image-card:hover::after {
+  opacity: 1;
 }
 
 
-.design-content p {
+/* =========================================================
+   IMAGE CONTENT
+========================================================= */
 
-    max-width: 500px;
+.image-overlay {
+  position: absolute;
 
-    margin-top: 35px;
+  left: 20px;
+  right: 20px;
+  bottom: 18px;
 
-    font-size: 16px;
+  z-index: 2;
 
-    line-height: 1.8;
+  color: #ffffff;
 
-    color:black;
+  opacity: 0;
+
+  transform: translateY(12px);
+
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
 }
 
 
-/* =========================
-   Actions
-========================= */
+.design-image-card:hover .image-overlay {
+  opacity: 1;
 
-.design-actions {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 30px;
-
-    margin-top: 40px;
+  transform: translateY(0);
 }
 
 
-.design-cta {
+.image-overlay span {
+  display: block;
 
-    display: flex;
+  margin-bottom: 5px;
 
-    align-items: center;
+  font-size: 10px;
+
+  letter-spacing: 1.5px;
+
+  opacity: 0.7;
+}
+
+
+.image-overlay h3 {
+  margin: 0;
+
+  font-size: 17px;
+
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+.design-info {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 15px;
+
+  padding: 25px 0;
+
+  border-top: 1px solid #e8e8e8;
+  border-bottom: 1px solid #e8e8e8;
+
+  animation:
+    designContentIn
+    0.7s
+    ease
+    0.35s
+    both;
+}
+
+
+/* =========================================================
+   STAT ITEM
+========================================================= */
+
+.design-info-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 8px;
+
+  border-radius: 12px;
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+.design-info-item:hover {
+  background: #f7f7f7;
+
+  transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   STAT ICON
+========================================================= */
+
+.design-info-item > span {
+  width: 36px;
+  height: 36px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #111111;
+
+  color: #ffffff;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   STAT NUMBER
+========================================================= */
+
+.design-info-item strong {
+  display: block;
+
+  margin-bottom: 2px;
+
+  font-size: 22px;
+
+  font-weight: 700;
+
+  line-height: 1;
+
+  color: #111111;
+}
+
+
+/* =========================================================
+   STAT DESCRIPTION
+========================================================= */
+
+.design-info-item p {
+  margin: 0;
+
+  font-size: 10px;
+
+  line-height: 1.4;
+
+  color: #888888;
+}
+
+
+/* =========================================================
+   PRINCIPLES
+========================================================= */
+
+.design-principles {
+  padding-top: 38px;
+
+  animation:
+    designContentIn
+    0.7s
+    ease
+    0.45s
+    both;
+}
+
+
+/* =========================================================
+   PRINCIPLE LABEL
+========================================================= */
+
+.design-principles > span {
+  display: block;
+
+  margin-bottom: 24px;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  letter-spacing: 2.5px;
+
+  color: #888888;
+}
+
+
+/* =========================================================
+   PRINCIPLE GRID
+========================================================= */
+
+.principle-list {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 30px;
+
+}
+
+
+/* =========================================================
+   PRINCIPLE ITEM
+========================================================= */
+
+.principle-list > div {
+  position: relative;
+
+  padding-left: 42px;
+
+  transition:
+    transform 0.3s ease;
+}
+
+
+.principle-list > div:hover {
+  transform: translateX(6px);
+}
+
+
+/* =========================================================
+   PRINCIPLE NUMBER
+========================================================= */
+
+.principle-list > div > span {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  font-size: 10px;
+
+  color: #999999;
+}
+
+
+/* =========================================================
+   PRINCIPLE HEADING
+========================================================= */
+
+.principle-list h3 {
+  margin: 0 0 6px;
+
+  font-size: 17px;
+
+  font-weight: 600;
+
+  color: #111111;
+}
+
+
+/* =========================================================
+   PRINCIPLE DESCRIPTION
+========================================================= */
+
+.principle-list p {
+  margin: 0;
+
+  font-size: 13px;
+
+  line-height: 1.65;
+
+  color: #777777;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes designOverlayIn {
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+
+}
+
+
+@keyframes designModalIn {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(40px)
+      scale(0.94);
+
+    filter: blur(5px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+
+    filter: blur(0);
+  }
+
+}
+
+
+@keyframes designContentIn {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+
+}
+
+
+@keyframes designAccent {
+
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+
+}
+
+
+@keyframes designFloatingCircle {
+
+  0% {
+    transform:
+      translate(0, 0)
+      rotate(0deg);
+  }
+
+  50% {
+    transform:
+      translate(-18px, 18px)
+      rotate(8deg);
+  }
+
+  100% {
+    transform:
+      translate(0, 0)
+      rotate(0deg);
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .design-overlay {
+    padding: 15px;
+  }
+
+
+  .design-modal {
+    width: 100%;
+
+    max-width: 100%;
+
+    max-height: 90vh;
+
+    padding: 35px 24px;
+
+    border-radius: 24px;
+  }
+
+
+  .design-close {
+    top: 15px;
+    right: 15px;
+
+    width: 38px;
+    height: 38px;
+
+    font-size: 22px;
+  }
+
+
+  .design-header {
+    padding-right: 45px;
+  }
+
+
+  .design-modal h2 {
+    font-size: 34px;
+
+    letter-spacing: -1.5px;
+  }
+
+
+  .design-header p {
+    font-size: 14px;
+  }
+
+
+  .design-gallery {
+    grid-template-columns: 1fr;
+
+    grid-template-rows: auto;
 
     gap: 12px;
-
-    padding:
-        14px
-        20px;
-
-    border-radius: 50px;
-
-    background: white;
-
-    color: #09090d;
-
-    text-decoration: none;
-
-    font-size: 14px;
-
-    font-weight: 500;
-
-    transition: 0.3s;
-}
+  }
 
 
-.design-cta:hover {
+  .design-image-card,
+  .design-image-card.large {
+    grid-row: auto;
 
-    transform:
-        translateY(-4px);
-
-    box-shadow:
-        0 15px 40px
-        rgba(255,255,255,0.15);
-}
+    height: 210px;
+  }
 
 
-.scroll-text {
-
-    font-size: 12px;
-
-    color:black;
-
-    letter-spacing: 1px;
-}
-
-
-/* =========================
-   3D Model
-========================= */
-
-.design-model {
-
-    position: relative;
-
-    height: 600px;
-
-    animation:
-        modelReveal 1.2s
-        ease forwards;
-}
-
-
-.design-model canvas {
-
-    width: 100% !important;
-
-    height: 100% !important;
-}
-
-
-.model-label {
-
-    position: absolute;
-
-    bottom: 20px;
-
-    left: 50%;
-
-    transform:
-        translateX(-50%);
-
-    display: flex;
-
-    align-items: center;
+  .design-info {
+    grid-template-columns: 1fr;
 
     gap: 8px;
+  }
 
-    padding:
-        9px 15px;
 
-    border:
-        1px solid
-        rgba(255,255,255,0.1);
+  .principle-list {
+    grid-template-columns: 1fr;
 
-    border-radius: 30px;
+    gap: 24px;
+  }
 
-    background:
-        rgba(255,255,255,0.04);
-
-    backdrop-filter:
-        blur(15px);
-
-    color:black;
-
-    font-size: 11px;
-
-    white-space: nowrap;
 }
 
 
-.status-dot {
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
 
-    width: 7px;
-    height: 7px;
+@media (max-width: 420px) {
 
-    border-radius: 50%;
-
-    background:black;
-    color:black;
- 
-
-    box-shadow:
-        0 0 12px
-        #65e0b4;
-    
-}
+  .design-modal {
+    padding: 30px 20px;
+  }
 
 
-
-/* =========================
-   Bottom cards
-========================= */
-
-.design-features {
-
-    position: relative;
-
-    z-index: 5;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap: 15px;
-
-    padding:
-        0 6vw
-        50px;
-}
+  .design-modal h2 {
+    font-size: 29px;
+  }
 
 
-.mini-card {
+  .design-number {
+    font-size: 9px;
 
-    display: flex;
+    letter-spacing: 2px;
+  }
 
+
+  .design-image-card,
+  .design-image-card.large {
+    height: 180px;
+  }
+
+
+  .principle-list {
     gap: 20px;
-
-    padding: 22px;
-
-    border:
-        1px solid
-        rgba(201, 178, 178, 0.08);
-
-    border-radius: 18px;
-
-    background: rgb(228, 214, 214);
-    padding:40px;
-    backdrop-filter:
-        blur(20px);
-
-    transition: 0.35s;
-}
-
-
-.mini-card:hover {
-
-    transform:
-        translateY(-6px);
-
-    border-color:
-        rgba(255,255,255,0.18);
-}
-
-
-.mini-card > span {
-
-    color: black;
-
-    font-size: 12px;
-}
-
-
-.mini-card h3 {
-
-    margin: 0;
-
-    font-size: 17px;
-
-    color:black;
-}
-
-
-.mini-card p {
-
-    margin:
-        7px 0 0;
-
-    color: black;
-
-    font-size: 12px;
-
-    line-height: 1.5;
-}
-
-
-/* =========================
-   Animations
-========================= */
-
-@keyframes contentReveal {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-            translateY(40px);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            translateY(0);
-
-    }
-
-}
-
-
-@keyframes modelReveal {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-            scale(0.8)
-            translateX(60px);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            scale(1)
-            translateX(0);
-
-    }
-
-}
-
-
-/* =========================
-   Mobile
-========================= */
-
-@media (max-width: 800px) {
-
-    .design-nav {
-
-        padding: 0 25px;
-
-    }
-
-
-    .design-logo {
-
-        font-size: 10px;
-
-    }
-
-
-    .design-hero {
-
-        grid-template-columns: 1fr;
-
-        padding:
-            30px 25px 50px;
-
-    }
-
-
-    .design-content {
-
-        text-align: center;
-
-        margin: auto;
-
-    }
-
-
-    .design-content h1 {
-
-        font-size: 52px;
-
-        letter-spacing: -3px;
-
-    }
-
-
-    .design-content p {
-
-        margin-left: auto;
-        margin-right: auto;
-
-    }
-
-
-    .design-actions {
-
-        justify-content: center;
-
-        flex-direction: column;
-
-    }
-
-
-    .design-model {
-
-        height: 400px;
-
-        margin-top: -30px;
-
-    }
-
-
-    .design-features {
-
-        grid-template-columns: 1fr;
-
-        padding:
-            0 25px 40px;
-
-    }
+  }
 
 }
