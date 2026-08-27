@@ -29,7 +29,19 @@ const ContactModal = ({ onClose }) => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [range,setRange] = useState("");
+
+  // =========================================
+  // ALLOWED EMAIL DOMAINS
+  // =========================================
+
+  const allowedDomains = [
+    "gmail.com",
+    "innovativeblossom.com",
+    "yahoo.com",
+    "outlook.com",
+    "hotmail.com",
+    "icloud.com",
+  ];
 
   // =========================================
   // CLOSE MODAL
@@ -73,10 +85,23 @@ const ContactModal = ({ onClose }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+    // =========================================
+    // NAME VALIDATION
+    // =========================================
+
+    if (name === "name" && value.length > 20) {
+      return;
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
+
+    // Clear email error when user starts typing again
+    if (name === "email") {
+      setError("");
+    }
   };
 
   // =========================================
@@ -85,21 +110,56 @@ const ContactModal = ({ onClose }) => {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-   
-     setRange("");
-     setError("");
-    // Extra email format validation
-    if(formData.name.length > 20)
-    {
-      setRange("Character must be less than 20 characters");
+
+    setError("");
+
+    // =========================================
+    // NAME VALIDATION
+    // =========================================
+
+    if (!formData.name.trim()) {
+      setError("Please enter your name.");
       return;
     }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailRegex.test(formData.email)) {
+    // =========================================
+    // EMAIL VALIDATION
+    // =========================================
+
+    const email = formData.email.trim().toLowerCase();
+
+    // Basic email structure validation
+    const emailRegex =
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/;
+
+    if (!emailRegex.test(email)) {
       setError("Please enter a valid email address.");
       return;
     }
+
+    // Get domain after @
+    const domain = email.split("@")[1];
+
+    // Check allowed domain
+    if (!allowedDomains.includes(domain)) {
+      setError(
+        "Please use a valid email provider such as Gmail, Yahoo, Outlook, Hotmail, or iCloud."
+      );
+      return;
+    }
+
+    // =========================================
+    // MESSAGE VALIDATION
+    // =========================================
+
+    if (!formData.message.trim()) {
+      setError("Please enter your message.");
+      return;
+    }
+
+    // =========================================
+    // SEND EMAIL
+    // =========================================
 
     try {
       setLoading(true);
@@ -109,18 +169,20 @@ const ContactModal = ({ onClose }) => {
         "template_i9q1xj5",
         {
           name: formData.name,
-          email: formData.email,
+          email: email,
           message: formData.message,
         },
-        "y6remiBz2oGBevixD",
+        "y6remiBz2oGBevixD"
       );
 
       console.log("Mail message:", response);
 
-      // Show success screen
+      // =========================================
+      // SUCCESS
+      // =========================================
+
       setSubmitted(true);
 
-      // Clear form
       setFormData({
         name: "",
         email: "",
@@ -129,7 +191,9 @@ const ContactModal = ({ onClose }) => {
     } catch (error) {
       console.error("EmailJS Error:", error);
 
-      alert("Something went wrong. Please try again.");
+      setError(
+        "We couldn't send your message. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -141,34 +205,48 @@ const ContactModal = ({ onClose }) => {
 
   return (
     <div className="contact-overlay">
+
       {/* Background particles */}
+
       <div className="contact-particle particle-one"></div>
       <div className="contact-particle particle-two"></div>
       <div className="contact-particle particle-three"></div>
       <div className="contact-particle particle-four"></div>
 
       {/* Modal */}
+
       <div className="contact-modal">
+
         {/* Glow */}
+
         <div className="contact-modal-glow"></div>
 
         {/* Close button */}
-        <button type="button" className="contact-close" onClick={closeModal}>
+
+        <button
+          type="button"
+          className="contact-close"
+          onClick={closeModal}
+        >
           <X size={20} />
         </button>
 
         {!submitted ? (
           <>
+
             {/* =========================================
                 HEADER
             ========================================= */}
 
             <div className="contact-header">
+
               <div className="contact-icon">
                 <Sparkles size={22} />
               </div>
 
-              <span className="contact-small-title">LET'S CONNECT</span>
+              <span className="contact-small-title">
+                LET'S CONNECT
+              </span>
 
               <h2>
                 Let's build something
@@ -176,21 +254,31 @@ const ContactModal = ({ onClose }) => {
               </h2>
 
               <p>
-                Have a project, idea, or just want to say hello? Drop us a
-                message.
+                Have a project, idea, or just want to say hello?
+                Drop us a message.
               </p>
+
             </div>
 
             {/* =========================================
                 FORM
             ========================================= */}
 
-            <form className="contact-form" onSubmit={handleSendMessage}>
+            <form
+              className="contact-form"
+              onSubmit={handleSendMessage}
+            >
+
               {/* NAME */}
+
               <div className="contact-field">
-                <label htmlFor="name">Your name</label>
+
+                <label htmlFor="name">
+                  Your name
+                </label>
 
                 <div className="input-wrapper">
+
                   <User size={12} />
 
                   <input
@@ -200,21 +288,28 @@ const ContactModal = ({ onClose }) => {
                     placeholder="John Doe"
                     value={formData.name}
                     onChange={handleChange}
+                    maxLength={20}
                     required
                   />
 
                 </div>
 
-                <div>
-                  {range && <p className="range-error">{range}</p>}
-                </div>
+                <small>
+                  {formData.name.length}/20
+                </small>
+
               </div>
 
               {/* EMAIL */}
+
               <div className="contact-field">
-                <label htmlFor="email">Email address</label>
+
+                <label htmlFor="email">
+                  Email address
+                </label>
 
                 <div className="input-wrapper">
+
                   <Mail size={12} />
 
                   <input
@@ -226,18 +321,27 @@ const ContactModal = ({ onClose }) => {
                     onChange={handleChange}
                     required
                   />
-             
+
                 </div>
-                    <div className="error-mg">
-                  {error && <p className="contact-error">{error}</p>}
-                </div>
+
+                {error && (
+                  <p className="contact-error">
+                    {error}
+                  </p>
+                )}
+
               </div>
 
               {/* MESSAGE */}
+
               <div className="contact-field">
-                <label htmlFor="message">Tell us about your idea</label>
+
+                <label htmlFor="message">
+                  Tell us about your idea
+                </label>
 
                 <div className="input-wrapper textarea-wrapper">
+
                   <MessageSquare size={12} />
 
                   <textarea
@@ -249,34 +353,47 @@ const ContactModal = ({ onClose }) => {
                     rows="4"
                     required
                   />
+
                 </div>
+
               </div>
 
               {/* SEND BUTTON */}
+
               <button
                 type="submit"
                 className="contact-submit"
                 disabled={loading}
               >
-                <span>{loading ? "Sending..." : "Send Message"}</span>
+                <span>
+                  {loading
+                    ? "Sending..."
+                    : "Send Message"}
+                </span>
               </button>
+
             </form>
+
           </>
         ) : (
+
           /* =========================================
              SUCCESS SCREEN
           ========================================= */
 
           <div className="contact-success">
+
             <div className="success-icon">
               <CheckCircle2 size={45} />
             </div>
 
-            <h2>Message sent!</h2>
+            <h2>
+              Message sent!
+            </h2>
 
             <p>
-              Thanks for reaching out. Our team at Innovative Blossom will get
-              back to you soon.
+              Thanks for reaching out. Our team at
+              Innovative Blossom will get back to you soon.
             </p>
 
             <button
@@ -286,9 +403,13 @@ const ContactModal = ({ onClose }) => {
             >
               Done
             </button>
+
           </div>
+
         )}
+
       </div>
+
     </div>
   );
 };
