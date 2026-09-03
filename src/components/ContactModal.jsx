@@ -172,8 +172,8 @@ const ContactModal = ({ onClose }) => {
       return;
     }
 
-    if (name.length > 20) {
-      setError("Name must be less than 20 characters.");
+    if (name.length < 200 && name.length > 20) {
+      setError("Name must be less than 200 characters.");
       return;
     }
 

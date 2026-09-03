@@ -1,0 +1,544 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+/* =========================================
+   TESTIMONIAL SECTION
+========================================= */
+
+.testimonial-section {
+  position: relative;
+  width: 100%;
+  min-height: 740px;
+
+  padding: 15px 20px 70px;
+
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 78% 42%,
+      var(--glow-green),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 20% 20%,
+      var(--glow-green),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 90%,
+      var(--glow-green),
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #f9fbf4 45%,
+      #ffffff 100%
+    );
+}
+
+
+/* =========================================
+   BACKGROUND GLOW
+========================================= */
+
+.testimonial-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+}
+
+.glow-one {
+  width: 300px;
+  height: 300px;
+
+  left: -150px;
+  top: 250px;
+
+  background: rgba(104, 211, 255, 0.12);
+}
+
+.glow-two {
+  width: 350px;
+  height: 350px;
+
+  right: -180px;
+  bottom: 20px;
+
+  background: rgba(115, 140, 255, 0.12);
+}
+
+
+/* =========================================
+   CONTAINER
+========================================= */
+
+.testimonial-container {
+  position: relative;
+  z-index: 2;
+  width: min(1000px, 100%);
+  margin: 0 auto;
+
+  text-align: center;
+}
+
+
+/* =========================================
+   BADGE
+========================================= */
+
+.testimonial-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px 18px;
+
+  margin-bottom: 25px;
+
+  border: 1px solid #d7e7fa;
+  border-radius: 30px;
+
+  background: rgba(255, 255, 255, 0.35);
+
+  color :#88c23f;
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+
+/* =========================================
+   HEADING
+========================================= */
+
+.testimonial-heading {
+  margin: 0;
+
+  color: #10182b;
+
+  font-size: clamp(42px, 5vw, 56px);
+
+  line-height: 1.15;
+
+  font-weight: 750;
+
+  letter-spacing: -2.2px;
+}
+
+.testimonial-heading span {
+
+
+  margin-top: 8px;
+
+  background:
+    var(--text-gradient);
+
+  background-size: 250% auto;
+
+  background-clip: text;
+
+  -webkit-background-clip: text;
+
+  color: transparent;
+
+  -webkit-text-fill-color: transparent;
+
+  animation:
+    ctaGradient 6s
+    ease-in-out
+    infinite;
+
+  
+}
+
+@keyframes ctaGradient {
+
+  0% {
+    background-position:
+      0% center;
+  }
+
+  50% {
+    background-position:
+      100% center;
+  }
+
+  100% {
+    background-position:
+      0% center;
+  }
+
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.testimonial-description {
+  margin: 27px 0 48px;
+
+  color: #5b6679;
+
+  font-size: 20px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================
+   TESTIMONIAL CARD
+========================================= */
+
+.testimonial-card {
+  position: relative;
+
+  width: 100%;
+  min-height: 417px;
+
+  padding: 50px 54px 35px;
+
+  text-align: left;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e7ee;
+
+  border-radius: 25px;
+
+  box-shadow:
+    0 12px 35px rgba(20, 50, 90, 0.06),
+    0 2px 8px rgba(20, 50, 90, 0.03);
+}
+
+.test-letter
+{
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  font-size : 40px;
+  font-weight : 700;
+  background-color: #88c23f;
+  color:#ffffff !important;
+  justify-content: center;
+
+}
+/* =========================================
+   STARS
+========================================= */
+
+.testimonial-stars {
+  display: flex;
+  gap: 4px;
+
+  color: yellow;
+  font-size: 18px;
+  font-weight : 700;
+
+  margin-bottom: 28px;
+}
+
+
+/* =========================================
+   LARGE QUOTE
+========================================= */
+
+.large-quote {
+  position: absolute;
+
+  top: 35px;
+  right: 38px;
+
+  color: #88c23f;
+
+  stroke-width: 2.5;
+}
+
+
+/* =========================================
+   TESTIMONIAL TEXT
+========================================= */
+
+.testimonial-text {
+  width: 90%;
+
+  margin: 0;
+
+  color: #20293b;
+
+  font-size: 20px;
+
+  line-height: 1.55;
+
+  font-weight: 400;
+
+  letter-spacing: -0.3px;
+}
+
+
+/* =========================================
+   USER
+========================================= */
+
+.testimonial-user {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  margin-top: 30px;
+}
+
+
+.testimonial-person {
+  width: 55px;
+  height: 55px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  border: 2px solid #ffffff;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.testimonial-user h3 {
+  margin: 0 0 4px;
+
+  color: #182033;
+
+  font-size: 16px;
+
+  font-weight: 700;
+}
+
+.testimonial-user p {
+  margin: 0;
+
+  color: #737d8d;
+
+  font-size: 14px;
+}
+
+
+/* =========================================
+   BOTTOM AREA
+========================================= */
+
+.testimonial-bottom {
+  position: absolute;
+
+  left: 54px;
+  right: 54px;
+  bottom: 30px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+
+/* =========================================
+   DOTS
+========================================= */
+
+.testimonial-dots {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+}
+
+.testimonial-dot {
+  width: 13px;
+  height: 7px;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 20px;
+
+  background: #e0e7ef;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.testimonial-dot.active {
+  width: 36px;
+
+  background:#88c23f;
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+.testimonial-navigation {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.testimonial-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 45px;
+  height: 45px;
+
+  padding: 0;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.testimonial-nav.prev {
+  background: #88c23f;
+  color:white;
+  border:none;
+
+}
+
+.testimonial-nav.next {
+  background: #88c23f;
+  color:white;
+  border : none;
+
+ 
+}
+
+.testimonial-nav:hover {
+  transform: translateY(-2px);
+}
+
+.testimonial-nav.prev:hover {
+   background: #88c23f;
+   border:none;
+}
+
+.testimonial-nav.next:hover {
+  background: #88c23f;
+  border:none;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+  .testimonial-section {
+    padding: 40px 20px 60px;
+  }
+
+  .testimonial-heading {
+    font-size: 42px;
+  }
+
+  .testimonial-description {
+    font-size: 18px;
+    margin-bottom: 35px;
+  }
+
+  .testimonial-card {
+    padding: 40px 35px 110px;
+    
+  }
+
+  .testimonial-text {
+  
+    width: 100%;
+    padding-top:10px;
+    font-size: 18px;
+  }
+
+  .testimonial-bottom {
+    left: 35px;
+    right: 35px;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .testimonial-section {
+    min-height: auto;
+
+    padding: 35px 15px 50px;
+  }
+
+  .testimonial-badge {
+    margin-bottom: 20px;
+  }
+
+  .testimonial-heading {
+    font-size: 34px;
+
+    letter-spacing: -1.2px;
+  }
+
+  .testimonial-description {
+    margin: 20px 0 30px;
+
+    font-size: 16px;
+  }
+
+  .testimonial-card {
+    min-height: 480px;
+
+    padding: 30px 25px 105px;
+
+    border-radius: 20px;
+  }
+
+  .testimonial-stars {
+    margin-bottom: 25px;
+  }
+
+  .large-quote {
+    width: 50px;
+    height: 50px;
+
+    top: 25px;
+    right: 20px;
+  }
+
+  .testimonial-text {
+    font-size: 18px;
+
+    line-height: 1.5;
+  }
+
+  .testimonial-user {
+    margin-top: 25px;
+  }
+
+  .testimonial-bottom {
+    left: 25px;
+    right: 25px;
+
+    bottom: 25px;
+  }
+
+  .testimonial-nav {
+    width: 40px;
+    height: 40px;
+  }
+}

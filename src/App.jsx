@@ -12,6 +12,7 @@ import ContactModal from "./components/ContactModal";
 import Design from "./components/Design";
 import Technology from "./components/Technology";
 import Innovation from "./components/Innovation";
+import Testimonial from "./components/Testimonial";
 
 
 const Home = () => {
@@ -24,6 +25,7 @@ const Home = () => {
         <Features />
         <Projects />
         <CTA />
+        <Testimonial />
       </main>
 
       <Footer />
@@ -91,6 +93,9 @@ const App = () => {
             </>
           }
         />
+
+         
+        
 
       </Routes>
 
