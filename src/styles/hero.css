@@ -230,7 +230,7 @@
 
 
 .hero-title span {
-  /* display: block; */
+  display: block;
 
   background:
     var(--text-gradient);

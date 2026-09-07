@@ -104,15 +104,14 @@ const Projects = () => {
 
 
           <p>
-            Together Event App is a modern platform designed to
-            bring people together through meaningful events
-            and experiences.
+            An AI-driven event planning platform that brings event creation, guest management, 
+            and communication into one seamless experience. Supporting multiple event categories.
           </p>
 
 
           <p>
-            Users can discover events, connect with communities,
-            and create memorable moments in one simple platform.
+            Together offers AI-powered planning, automation, real-time notifications, reminders,
+             and guest-to-host and guest-to-guest chat—making event planning simpler and more connected.
           </p>
 
 

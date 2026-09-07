@@ -54,8 +54,11 @@ const Features = () => {
             <h3>Beautiful Design</h3>
 
             <p>
-              Create modern and engaging experiences with thoughtful design and
-              attention to every detail.
+              We design intuitive, engaging digital experiences that balance thoughtful aesthetics with seamless usability. 
+              From user research and experience strategy to wireframes, UI design, prototyping, and design systems, 
+              we create user-centered interfaces that are simple to navigate, visually compelling, 
+              and built to drive meaningful engagement
+               across web and mobile platforms.
             </p>
           </div>
 
@@ -81,8 +84,11 @@ const Features = () => {
             <h3>Powerful Technology</h3>
 
             <p>
-              Build scalable digital products using modern technologies designed
-              for performance and flexibility.
+              We combine modern technologies, cloud platforms, scalable architecture, AI, automation, and engineering expertise to build fast, secure, reliable, and future-ready digital products.
+
+From custom software development and cloud solutions to AI-powered applications, intelligent automation, payment solutions, and quality engineering, we help businesses modernize technology, streamline operations, and turn ideas into scalable digital experiences.
+
+Our technology expertise enables us to design, build, test, integrate, and continuously improve solutions that perform today and evolve with your business tomorrow.
             </p>
           </div>
 
@@ -108,8 +114,7 @@ const Features = () => {
             <h3>Built for Innovation</h3>
 
             <p>
-              Turn ambitious ideas into meaningful digital experiences that are
-              ready for the future.
+                From idea to innovation, we help startups bring their vision to life. We combine technology, creativity, AI, and automation to build smart, scalable digital solutions that turn possibilities into real-world impact.
             </p>
           </div>
 

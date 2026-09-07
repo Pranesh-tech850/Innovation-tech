@@ -260,7 +260,7 @@
 
   font-size: 14px;
 
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 
@@ -288,64 +288,36 @@
 /* =========================================
    FEATURE CARD
 ========================================= */
-
 .feature-card {
-  min-height: 300px;
+  min-height: 400px;
 
-  padding: 26px;
+  padding: 22px;
 
   position: relative;
 
   overflow: hidden;
 
-  display: flex;
+  display: grid;
 
-  flex-direction: column;
-
-  justify-content: space-between;
+  grid-template-rows: auto 1fr auto;
 
   border-radius: 22px;
 
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      0.72
-    );
+  background: rgba(255, 255, 255, 0.72);
 
-  border:
-    1px solid
-    rgba(
-      50,
-      40,
-      90,
-      0.08
-    );
+  border: 1px solid rgba(50, 40, 90, 0.08);
 
   box-shadow:
     0 20px 60px
-    rgba(
-      40,
-      30,
-      90,
-      0.06
-    );
+    rgba(40, 30, 90, 0.06);
 
   backdrop-filter: blur(18px);
 
   transition:
-    transform 0.5s
-    cubic-bezier(
-      0.2,
-      0.8,
-      0.2,
-      1
-    ),
+    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
     box-shadow 0.5s ease,
     border-color 0.5s ease;
 }
-
 
 /* =========================================
    CARD HOVER
@@ -377,7 +349,7 @@
 /* =========================================
    CARD NUMBER
 ========================================= */
-
+/* 
 .feature-number {
   position: absolute;
 
@@ -398,7 +370,7 @@
   font-weight: 800;
 
   letter-spacing: 1px;
-}
+} */
 
 
 /* =========================================
@@ -522,13 +494,16 @@
   position: relative;
 
   z-index: 2;
+
+  padding-top: 15px;
+
+  align-self: start;
 }
 
 
 .feature-content h3 {
-  margin:
-    0 0
-    10px;
+  padding-top:10px;
+   margin : 0 0 10px;
 
   color: #211e2b;
 
@@ -539,9 +514,9 @@
 
 
 .feature-content p {
-  margin: 0;
+  margin-bottom : 10px;
 
-  max-width: 300px;
+  max-width: 400px;
 
   color: #777381;
 
@@ -582,10 +557,13 @@
       0.06
     );
 
+  
+
   transition:
     transform 0.4s ease,
     background 0.4s ease,
     color 0.4s ease;
+    
 }
 
 

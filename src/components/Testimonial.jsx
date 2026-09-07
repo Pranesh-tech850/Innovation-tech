@@ -7,7 +7,7 @@ const testimonials = [
   {
     name: "Danielle Aspromatis",
     role: "Co Founder, ToGather Event App",
-    text: "Innovative Blossom is diligent, inventive, forward thinking with an emphasis on creative problem solving through technological innovation, true to their name! What the company has done for our start up app is priceless and we couldn’t have done it without them!",
+    text: "Hear directly from the founders, business leaders, and teams we’ve partnered with to turn ideas into impactful digital solutions",
   }
 ];
 
@@ -42,15 +42,16 @@ const Testimonial = () => {
 
         {/* Heading */}
         <h1 className="testimonial-heading">
-          Founders and marketers{" "}
-          <span>love</span>
+         Our Partners  {" "}
+
+          <span>Love</span>
           <br />
           <span>working with us</span>
         </h1>
 
         {/* Description */}
         <p className="testimonial-description">
-          Real words from real partners — not stock quotes.
+       Real experiences. Real partnerships. Real results.
         </p>
 
         {/* Testimonial Card */}
@@ -58,7 +59,7 @@ const Testimonial = () => {
 
           {/* Stars */}
           <div className="testimonial-stars">
-            {[1, 2, 3, ,4,6].map((star) => (
+            {[1, 2, 3, ,4,5].map((star) => (
               <Star
                 key={star}
                 size={19}

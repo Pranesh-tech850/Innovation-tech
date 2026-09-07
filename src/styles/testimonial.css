@@ -196,7 +196,7 @@
   position: relative;
 
   width: 100%;
-  min-height: 417px;
+  min-height: 290px;
 
   padding: 50px 54px 35px;
 
@@ -501,7 +501,7 @@
   }
 
   .testimonial-card {
-    min-height: 480px;
+    min-height: 290px;
 
     padding: 30px 25px 105px;
 

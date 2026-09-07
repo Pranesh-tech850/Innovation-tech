@@ -23,19 +23,21 @@ const Hero = () => {
 
         <div className="hero-badge">
           <span className="badge-dot"></span>
-          The future starts here
+             Innovation starts here
+
         </div>
 
 
         <h1 className="hero-title">
-          Build something
-          <span> extraordinary.</span>
+             Turn ideas 
+          <span> into impact.</span>
         </h1>
 
 
         <p className="hero-description">
-          Create powerful digital experiences with modern technology,
-          beautiful design, and intelligent solutions built for the future.
+       We help businesses turn ideas and challenges into innovative digital solutions using modern technology, AI, and intelligent automation. 
+       From strategy and consulting to product development and technology solutions, we build scalable, secure, and future-ready experiences that simplify processes, 
+       accelerate growth, and create lasting value.
         </p>
 
 
