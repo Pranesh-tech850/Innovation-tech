@@ -53,9 +53,11 @@ const Design = () => {
           </h2>
 
           <p>
-            We craft thoughtful digital experiences that combine
-            clean aesthetics, intuitive interactions and meaningful
-            user experiences.
+            We design intuitive, engaging digital experiences 
+            that balance thoughtful aesthetics with seamless usability. 
+            From user research and experience strategy to wireframes, UI design, prototyping, and design systems, 
+            we create user-centered interfaces that are simple to navigate, visually compelling, 
+            and built to drive meaningful engagement across web and mobile platforms
           </p>
 
         </div>

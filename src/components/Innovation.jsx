@@ -56,9 +56,7 @@ const Innovation = () => {
           </h2>
 
           <p>
-            We turn ambitious ideas into meaningful digital experiences
-            by combining creativity, technology and forward-thinking
-            solutions designed for the future.
+           From idea to innovation, we help startups bring their vision to life. We combine technology, creativity, AI, and automation to build smart, scalable digital solutions that turn possibilities into real-world impact.
           </p>
 
         </div>

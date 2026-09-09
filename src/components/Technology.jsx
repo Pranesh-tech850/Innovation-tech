@@ -55,9 +55,11 @@ const Technology = () => {
           </h2>
 
           <p>
-            We combine modern technologies, scalable architecture and
-            intelligent solutions to build fast, reliable and future-ready
-            digital products.
+            We combine modern technologies, cloud platforms, scalable architecture, AI, automation, and engineering expertise to build fast, secure, reliable, and future-ready digital products.
+
+From custom software development and cloud solutions to AI-powered applications, intelligent automation, payment solutions, and quality engineering, we help businesses modernize technology, streamline operations, and turn ideas into scalable digital experiences.
+
+Our technology expertise enables us to design, build, test, integrate, and continuously improve solutions that perform today and evolve with your business tomorrow.
           </p>
 
         </div>

@@ -289,7 +289,7 @@
    FEATURE CARD
 ========================================= */
 .feature-card {
-  min-height: 400px;
+  min-height:300px;
 
   padding: 22px;
 
@@ -520,7 +520,7 @@
 
   color: #777381;
 
-  font-size: 13px;
+  font-size: 15px;
 
   line-height: 1.7;
 }
