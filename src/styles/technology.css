@@ -143,10 +143,10 @@
 ========================================================= */
 
 .technology-close {
-  position: absolute;
+  position: fixed;
 
-  top: 20px;
-  right: 20px;
+  top: 80px;
+  right: 60px;
 
   width: 44px;
   height: 44px;
@@ -898,8 +898,8 @@
 
 
   .technology-close {
-    top: 15px;
-    right: 15px;
+    top: 80px;
+    right: 30px;
 
     width: 38px;
     height: 38px;

@@ -33,7 +33,7 @@ const Innovation = () => {
   return (
     <div className="innovation-overlay">
 
-      <div className="innovation-modal">
+  
 
         {/* Close Button */}
 
@@ -44,7 +44,7 @@ const Innovation = () => {
           ×
         </button>
 
-
+<div className="innovation-modal">
         {/* Header */}
 
         <div className="innovation-header">

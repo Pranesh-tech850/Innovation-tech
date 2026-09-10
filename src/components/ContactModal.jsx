@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import emailjs from "@emailjs/browser";
@@ -6,6 +7,7 @@ import {
   X,
   User,
   Mail,
+  Phone,
   MessageSquare,
   Sparkles,
   CheckCircle2,
@@ -23,12 +25,23 @@ const ContactModal = ({ onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     message: "",
   });
 
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+
+  // =========================================
+  // INDIVIDUAL FIELD ERRORS
+  // =========================================
+
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
 
   // =========================================
   // ALLOWED EMAIL DOMAINS
@@ -85,71 +98,99 @@ const ContactModal = ({ onClose }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // NAME LENGTH
-    if (name === "name" && value.length > 20) {
+    // =========================================
+    // NAME - MAX 100 CHARACTERS
+    // =========================================
+
+    if (name === "name" && value.length > 100) {
       return;
     }
 
-    // EMAIL LENGTH
+    // =========================================
+    // EMAIL - MAX 50 CHARACTERS
+    // =========================================
+
     if (name === "email" && value.length > 50) {
       return;
     }
+
+    // =========================================
+    // PHONE - OPTIONAL
+    // =========================================
+
+    if (name === "phone") {
+      // Maximum 15 characters
+      if (value.length > 15) {
+        return;
+      }
+
+      // Allow only numbers, +, -, spaces and brackets
+      if (!/^[0-9+\-()\s]*$/.test(value)) {
+        return;
+      }
+    }
+
+    // =========================================
+    // MESSAGE - LESS THAN 2000 CHARACTERS
+    // =========================================
+
+    if (name === "message" && value.length >= 2000) {
+      return;
+    }
+
+    // =========================================
+    // UPDATE FORM DATA
+    // =========================================
 
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
 
-    // Clear error while typing
-    if (name === "email") {
-      setError("");
-    }
+    // =========================================
+    // CLEAR THAT FIELD'S ERROR
+    // =========================================
 
-    if (name === "message") {
-      setError("");
-    }
+    setErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
   };
 
   // =========================================
-  // EMAIL VALIDATION
+  // EMAIL FORMAT VALIDATION
   // =========================================
 
-  const validateEmail = (email) => {
-    // Basic email structure
+  const validateEmailFormat = (email) => {
     const emailRegex =
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/;
 
-    if (!emailRegex.test(email)) {
-      return false;
+    return emailRegex.test(email);
+  };
+
+  // =========================================
+  // PHONE VALIDATION
+  // =========================================
+
+  const validatePhone = (phone) => {
+    // Phone is optional
+    if (!phone.trim()) {
+      return true;
     }
 
-    // Split email
-    const parts = email.split("@");
+    // Remove spaces
+    const cleanPhone = phone.replace(/\s/g, "");
 
-    // Must contain exactly one @
-    if (parts.length !== 2) {
-      return false;
-    }
+    // Indian phone number validation
+    // Examples:
+    // 9876543210
+    // +919876543210
+    // 919876543210
+    // 09876543210
 
-    const username = parts[0];
-    const domain = parts[1];
+    const phoneRegex = /^(\+91|91|0)?[6-9]\d{9}$/;
 
-    // Username validation
-    if (!username || username.length === 0) {
-      return false;
-    }
-
-    // Domain validation
-    if (!domain || domain.length === 0) {
-      return false;
-    }
-
-    // Check allowed domain
-    if (!allowedDomains.includes(domain)) {
-      return false;
-    }
-
-    return true;
+    return phoneRegex.test(cleanPhone);
   };
 
   // =========================================
@@ -159,68 +200,138 @@ const ContactModal = ({ onClose }) => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
 
-    setError("");
+    // Clear all previous errors
+    setErrors({
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+    });
+
+    let hasError = false;
 
     // =========================================
-    // NAME VALIDATION
+    // GET FORM VALUES
     // =========================================
 
     const name = formData.name.trim();
-
-    if (!name) {
-      setError("Please enter your name.");
-      return;
-    }
-
-    if (name.length < 200 && name.length > 20) {
-      setError("Name must be less than 200 characters.");
-      return;
-    }
-
-    // =========================================
-    // EMAIL VALIDATION
-    // =========================================
-
     const email = formData.email.trim().toLowerCase();
-
-    // Empty email
-    if (!email) {
-      setError("Please enter your email address.");
-      return;
-    }
-
-    // Maximum email length
-    if (email.length > 50) {
-      setError("Email must be less than 50 characters.");
-      return;
-    }
-
-    // Validate email + domain
-    if (!validateEmail(email)) {
-      setError(
-        "Please enter a valid email using Gmail, Yahoo, Outlook, Hotmail, iCloud, or Innovative Blossom."
-      );
-      return;
-    }
-
-    // =========================================
-    // MESSAGE VALIDATION
-    // =========================================
-
+    const phone = formData.phone.trim();
     const message = formData.message.trim();
 
-    if (!message) {
-      setError("Please enter your message.");
-      return;
+    // =========================================
+    // NAME VALIDATION - REQUIRED
+    // =========================================
+
+    if (!name) {
+      setErrors((prev) => ({
+        ...prev,
+        name: "Please enter your name.",
+      }));
+
+      hasError = true;
+    } else if (name.length > 100) {
+      setErrors((prev) => ({
+        ...prev,
+        name: "Name must be less than 100 characters.",
+      }));
+
+      hasError = true;
     }
 
-    if (message.length < 20) {
-      setError("Please enter at least 20 characters in your message.");
+    // =========================================
+    // EMAIL VALIDATION - REQUIRED
+    // =========================================
+
+    if (!email) {
+      setErrors((prev) => ({
+        ...prev,
+        email: "Please enter your email address.",
+      }));
+
+      hasError = true;
+    }
+
+    // =========================================
+    // EMAIL LENGTH
+    // =========================================
+
+    else if (email.length > 50) {
+      setErrors((prev) => ({
+        ...prev,
+        email: "Email must be less than 50 characters.",
+      }));
+
+      hasError = true;
+    }
+
+    // =========================================
+    // EMAIL FORMAT
+    // =========================================
+
+    else if (!validateEmailFormat(email)) {
+      setErrors((prev) => ({
+        ...prev,
+        email: "Please enter a valid email address.",
+      }));
+
+      hasError = true;
+    }
+
+    // =========================================
+    // EMAIL DOMAIN
+    // =========================================
+
+    else {
+      const domain = email.split("@")[1];
+
+      if (!allowedDomains.includes(domain)) {
+        setErrors((prev) => ({
+          ...prev,
+          email:
+            "Please use a valid email domain (.com, .in, .edu, .govt).",
+        }));
+
+        hasError = true;
+      }
+    }
+
+    // =========================================
+    // PHONE VALIDATION - OPTIONAL
+    // =========================================
+
+    if (phone && !validatePhone(phone)) {
+      setErrors((prev) => ({
+        ...prev,
+        phone: "Please enter a valid phone number.",
+      }));
+
+      hasError = true;
+    }
+
+    // =========================================
+    // MESSAGE VALIDATION - OPTIONAL
+    // =========================================
+
+    if (message.length >= 2000) {
+      setErrors((prev) => ({
+        ...prev,
+        message: "Message must be less than 2000 characters.",
+      }));
+
+      hasError = true;
+    }
+
+    // =========================================
+    // STOP IF VALIDATION FAILED
+    // =========================================
+
+    if (hasError) {
       return;
     }
 
     // =========================================
-    // SEND EMAIL
+    // SEND EMAIL USING EMAILJS
     // =========================================
 
     try {
@@ -232,6 +343,7 @@ const ContactModal = ({ onClose }) => {
         {
           name: name,
           email: email,
+          phone: phone,
           message: message,
         },
         "y6remiBz2oGBevixD"
@@ -248,14 +360,18 @@ const ContactModal = ({ onClose }) => {
       setFormData({
         name: "",
         email: "",
+        phone: "",
+        message: "",
+      });
+
+      setErrors({
+        name: "",
+        email: "",
+        phone: "",
         message: "",
       });
     } catch (error) {
-      console.error("EmailJS Error:", error);
-
-      setError(
-        "We couldn't send your message. Please try again."
-      );
+      console.error("EmailJS Error:", error);  
     } finally {
       setLoading(false);
     }
@@ -268,14 +384,14 @@ const ContactModal = ({ onClose }) => {
   return (
     <div className="contact-overlay">
 
-      {/* Background particles */}
+      {/* BACKGROUND PARTICLES */}
 
       <div className="contact-particle particle-one"></div>
       <div className="contact-particle particle-two"></div>
       <div className="contact-particle particle-three"></div>
       <div className="contact-particle particle-four"></div>
 
-      {/* Modal */}
+      {/* MODAL */}
 
       <div className="contact-modal">
 
@@ -283,7 +399,7 @@ const ContactModal = ({ onClose }) => {
 
         <div className="contact-modal-glow"></div>
 
-        {/* Close button */}
+        {/* CLOSE BUTTON */}
 
         <button
           type="button"
@@ -295,9 +411,7 @@ const ContactModal = ({ onClose }) => {
 
         {!submitted ? (
           <>
-            {/* =========================================
-                HEADER
-            ========================================= */}
+            {/* HEADER */}
 
             <div className="contact-header">
 
@@ -321,9 +435,7 @@ const ContactModal = ({ onClose }) => {
 
             </div>
 
-            {/* =========================================
-                FORM
-            ========================================= */}
+            {/* FORM */}
 
             <form
               className="contact-form"
@@ -335,7 +447,7 @@ const ContactModal = ({ onClose }) => {
               <div className="contact-field">
 
                 <label htmlFor="name">
-                  Your name
+                  Your name <span className="required-star">*</span>
                 </label>
 
                 <div className="input-wrapper">
@@ -349,11 +461,19 @@ const ContactModal = ({ onClose }) => {
                     placeholder="John Doe"
                     value={formData.name}
                     onChange={handleChange}
-                    maxLength={20}
+                    maxLength={100}
                     required
                   />
 
                 </div>
+
+                {/* NAME ERROR */}
+
+                {errors.name && (
+                  <p className="contact-error">
+                    {errors.name}
+                  </p>
+                )}
 
               </div>
 
@@ -362,7 +482,7 @@ const ContactModal = ({ onClose }) => {
               <div className="contact-field">
 
                 <label htmlFor="email">
-                  Email address
+                  Email address <span className="required-star">*</span>
                 </label>
 
                 <div className="input-wrapper">
@@ -382,14 +502,62 @@ const ContactModal = ({ onClose }) => {
 
                 </div>
 
+                {/* EMAIL ERROR */}
+
+                {errors.email && (
+                  <p className="contact-error">
+                    {errors.email}
+                  </p>
+                )}
+
               </div>
 
-              {/* MESSAGE */}
+              {/* PHONE - OPTIONAL */}
+
+              <div className="contact-field">
+
+                <label htmlFor="phone">
+                  Phone number
+                  <span className="optional-label">
+                    {" "} (Optional)
+                  </span>
+                </label>
+
+                <div className="input-wrapper">
+
+                  <Phone size={12} />
+
+                  <input
+                    id="phone"
+                    type="tel"
+                    name="phone"
+                    placeholder="+91 9876543210"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    maxLength={15}
+                  />
+
+                </div>
+
+                {/* PHONE ERROR */}
+
+                {errors.phone && (
+                  <p className="contact-error">
+                    {errors.phone}
+                  </p>
+                )}
+
+              </div>
+
+              {/* MESSAGE - OPTIONAL */}
 
               <div className="contact-field">
 
                 <label htmlFor="message">
                   Tell us about your idea
+                  <span className="optional-label">
+                    {" "} (Optional)
+                  </span>
                 </label>
 
                 <div className="input-wrapper textarea-wrapper">
@@ -403,20 +571,20 @@ const ContactModal = ({ onClose }) => {
                     value={formData.message}
                     onChange={handleChange}
                     rows="4"
-                    required
+                    maxLength={1999}
                   />
 
                 </div>
 
+                {/* MESSAGE ERROR */}
+
+                {errors.message && (
+                  <p className="contact-error">
+                    {errors.message}
+                  </p>
+                )}
+
               </div>
-
-              {/* ERROR */}
-
-              {error && (
-                <p className="contact-error">
-                  {error}
-                </p>
-              )}
 
               {/* SEND BUTTON */}
 
@@ -426,9 +594,7 @@ const ContactModal = ({ onClose }) => {
                 disabled={loading}
               >
                 <span>
-                  {loading
-                    ? "Sending..."
-                    : "Send Message"}
+                  {loading ? "Sending..." : "Send Message"}
                 </span>
               </button>
 
@@ -436,9 +602,7 @@ const ContactModal = ({ onClose }) => {
           </>
         ) : (
 
-          /* =========================================
-             SUCCESS SCREEN
-          ========================================= */
+          /* SUCCESS SCREEN */
 
           <div className="contact-success">
 
@@ -474,3 +638,8 @@ const ContactModal = ({ onClose }) => {
 };
 
 export default ContactModal;
+
+
+
+
+

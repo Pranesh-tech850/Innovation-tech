@@ -131,7 +131,7 @@
 
 .contact-close {
 
-  position: absolute;
+  position: fixed;
 
   top: 18px;
 
@@ -142,6 +142,8 @@
   height: 38px;
 
   border-radius: 50%;
+
+  margin-top:20px;
 
   border: 1px solid rgba(40, 30, 70, 0.1);
 

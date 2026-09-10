@@ -32,7 +32,6 @@ const Technology = () => {
   return (
     <div className="technology-overlay">
 
-      <div className="technology-modal">
 
         {/* Close Button */}
 
@@ -43,6 +42,7 @@ const Technology = () => {
           ×
         </button>
 
+      <div className="technology-modal">
 
         {/* Header */}
 

@@ -32,7 +32,7 @@ const Design = () => {
   return (
     <div className="design-overlay">
 
-      <div className="design-modal">
+    
 
         {/* Close button */}
         <button
@@ -41,9 +41,11 @@ const Design = () => {
         >
           ×
         </button>
+      
 
 
         {/* Header */}
+        <div className="design-modal">
         <div className="design-header">
 
          
