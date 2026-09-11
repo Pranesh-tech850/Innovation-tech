@@ -47,6 +47,24 @@
 }
 
 
+.required-star
+{
+  color:red;
+}
+
+.country-select {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 12px;
+  cursor: pointer;
+  width: 125px;
+}
+
+.country-select:focus {
+  outline: none;
+}
+
 /* =========================================
    MODAL
 ========================================= */

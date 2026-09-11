@@ -26,6 +26,7 @@ const ContactModal = ({ onClose }) => {
     name: "",
     email: "",
     phone: "",
+    countryCode: "+91",
     message: "",
   });
 
@@ -42,19 +43,6 @@ const ContactModal = ({ onClose }) => {
     phone: "",
     message: "",
   });
-
-  // =========================================
-  // ALLOWED EMAIL DOMAINS
-  // =========================================
-
-  const allowedDomains = [
-    "gmail.com",
-    "innovativeblossom.com",
-    "yahoo.com",
-    "outlook.com",
-    "hotmail.com",
-    "icloud.com",
-  ];
 
   // =========================================
   // CLOSE MODAL
@@ -119,13 +107,13 @@ const ContactModal = ({ onClose }) => {
     // =========================================
 
     if (name === "phone") {
-      // Maximum 15 characters
-      if (value.length > 15) {
+      // Allow only numbers
+      if (!/^\d*$/.test(value)) {
         return;
       }
 
-      // Allow only numbers, +, -, spaces and brackets
-      if (!/^[0-9+\-()\s]*$/.test(value)) {
+      // Maximum 10 digits
+      if (value.length > 10) {
         return;
       }
     }
@@ -163,7 +151,7 @@ const ContactModal = ({ onClose }) => {
 
   const validateEmailFormat = (email) => {
     const emailRegex =
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/;
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.(com|org|net|edu|gov|in|io|co\.in)$/i;
 
     return emailRegex.test(email);
   };
@@ -178,19 +166,8 @@ const ContactModal = ({ onClose }) => {
       return true;
     }
 
-    // Remove spaces
-    const cleanPhone = phone.replace(/\s/g, "");
-
-    // Indian phone number validation
-    // Examples:
-    // 9876543210
-    // +919876543210
-    // 919876543210
-    // 09876543210
-
-    const phoneRegex = /^(\+91|91|0)?[6-9]\d{9}$/;
-
-    return phoneRegex.test(cleanPhone);
+    // Phone must contain exactly 10 digits
+    return /^\d{10}$/.test(phone);
   };
 
   // =========================================
@@ -217,6 +194,7 @@ const ContactModal = ({ onClose }) => {
     const name = formData.name.trim();
     const email = formData.email.trim().toLowerCase();
     const phone = formData.phone.trim();
+    const countryCode = formData.countryCode;
     const message = formData.message.trim();
 
     // =========================================
@@ -272,28 +250,10 @@ const ContactModal = ({ onClose }) => {
     else if (!validateEmailFormat(email)) {
       setErrors((prev) => ({
         ...prev,
-        email: "Please enter a valid email address.",
+        email: "Please enter a valid domain(.com,.in,.gov,.edu,.org,.co,.io).",
       }));
 
       hasError = true;
-    }
-
-    // =========================================
-    // EMAIL DOMAIN
-    // =========================================
-
-    else {
-      const domain = email.split("@")[1];
-
-      if (!allowedDomains.includes(domain)) {
-        setErrors((prev) => ({
-          ...prev,
-          email:
-            "Please use a valid email domain (.com, .in, .edu, .govt).",
-        }));
-
-        hasError = true;
-      }
     }
 
     // =========================================
@@ -303,7 +263,7 @@ const ContactModal = ({ onClose }) => {
     if (phone && !validatePhone(phone)) {
       setErrors((prev) => ({
         ...prev,
-        phone: "Please enter a valid phone number.",
+        phone: "Please enter a valid 10-digit phone number.",
       }));
 
       hasError = true;
@@ -337,13 +297,17 @@ const ContactModal = ({ onClose }) => {
     try {
       setLoading(true);
 
+      const fullPhone = phone
+        ? `${countryCode} ${phone}`
+        : "";
+
       const response = await emailjs.send(
         "service_xxrjjjn",
         "template_i9q1xj5",
         {
           name: name,
           email: email,
-          phone: phone,
+          phone: fullPhone,
           message: message,
         },
         "y6remiBz2oGBevixD"
@@ -361,6 +325,7 @@ const ContactModal = ({ onClose }) => {
         name: "",
         email: "",
         phone: "",
+        countryCode: "+91",
         message: "",
       });
 
@@ -371,7 +336,7 @@ const ContactModal = ({ onClose }) => {
         message: "",
       });
     } catch (error) {
-      console.error("EmailJS Error:", error);  
+      console.error("EmailJS Error:", error);
     } finally {
       setLoading(false);
     }
@@ -429,8 +394,8 @@ const ContactModal = ({ onClose }) => {
               </h2>
 
               <p>
-                Have a project, idea, or just want to say hello?
-                Drop us a message.
+                Have a project, idea, or just want to say hello? Drop us a
+                message.
               </p>
 
             </div>
@@ -482,7 +447,8 @@ const ContactModal = ({ onClose }) => {
               <div className="contact-field">
 
                 <label htmlFor="email">
-                  Email address <span className="required-star">*</span>
+                  Email address{" "}
+                  <span className="required-star">*</span>
                 </label>
 
                 <div className="input-wrapper">
@@ -527,14 +493,39 @@ const ContactModal = ({ onClose }) => {
 
                   <Phone size={12} />
 
+                  {/* COUNTRY DROPDOWN */}
+
+                  <select
+                    name="countryCode"
+                    value={formData.countryCode}
+                    onChange={handleChange}
+                    className="country-select"
+                    aria-label="Country code"
+                  >
+                    <option value="+91">
+                      🇮🇳 +91
+                    </option>
+
+                    <option value="+1-US">
+                      🇺🇸 +1
+                    </option>
+
+                    <option value="+1-CA">
+                      🇨🇦 +1
+                    </option>
+                  </select>
+
+                  {/* PHONE NUMBER */}
+
                   <input
                     id="phone"
                     type="tel"
                     name="phone"
-                    placeholder="+91 9876543210"
+                    placeholder="9876543210"
                     value={formData.phone}
                     onChange={handleChange}
-                    maxLength={15}
+                    maxLength={10}
+                    inputMode="numeric"
                   />
 
                 </div>
@@ -610,13 +601,11 @@ const ContactModal = ({ onClose }) => {
               <CheckCircle2 size={45} />
             </div>
 
-            <h2>
-              Message sent!
-            </h2>
+            <h2>Message sent!</h2>
 
             <p>
-              Thanks for reaching out. Our team at
-              Innovative Blossom will get back to you soon.
+              Thanks for reaching out. Our team at Innovative Blossom will get
+              back to you soon.
             </p>
 
             <button
@@ -628,18 +617,11 @@ const ContactModal = ({ onClose }) => {
             </button>
 
           </div>
-
         )}
 
       </div>
-
     </div>
   );
 };
 
 export default ContactModal;
-
-
-
-
-
