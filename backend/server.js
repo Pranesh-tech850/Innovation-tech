@@ -29,20 +29,13 @@ app.get("/", (req, res) => {
 // ==========================================
 // SMTP TRANSPORTER
 // ==========================================
-
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-
-  port: Number(process.env.SMTP_PORT),
-
-  secure: process.env.SMTP_SECURE === "true",
-
+  service: "gmail",
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
 });
-
 
 // ==========================================
 // CHECK SMTP CONNECTION
@@ -160,14 +153,14 @@ Sent from Innovative Blossom website.
 
   } catch (error) {
 
-console.error("=================================");
-  console.error("SMTP ERROR");
-  console.error("Message:", error.message);
-  console.error("Code:", error.code);
-  console.error("Command:", error.command);
-  console.error("Response:", error.response);
-  console.error("Response Code:", error.responseCode);
-  console.error("=================================");
+    console.error("=================================");
+    console.error("SMTP ERROR");
+    console.error("Message:", error.message);
+    console.error("Code:", error.code);
+    console.error("Command:", error.command);
+    console.error("Response:", error.response);
+    console.error("Response Code:", error.responseCode);
+    console.error("=================================");
 
 
     return res.status(500).json({
@@ -188,6 +181,27 @@ console.error("=================================");
 // ==========================================
 
 const PORT = process.env.PORT || 9000;
+
+app.get("/test-smtp", async (req, res) => {
+  try {
+    await transporter.verify();
+
+    res.json({
+      success: true,
+      message: "SMTP connection works",
+    });
+  } catch (error) {
+    console.error("SMTP TEST ERROR");
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      code: error.code,
+      command: error.command,
+    });
+  }
+});
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
