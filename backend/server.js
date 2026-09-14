@@ -154,7 +154,14 @@ Sent from Innovative Blossom website.
 
   } catch (error) {
 
-    console.error("SMTP Error:", error);
+console.error("=================================");
+  console.error("SMTP ERROR");
+  console.error("Message:", error.message);
+  console.error("Code:", error.code);
+  console.error("Command:", error.command);
+  console.error("Response:", error.response);
+  console.error("Response Code:", error.responseCode);
+  console.error("=================================");
 
 
     return res.status(500).json({
