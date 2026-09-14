@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import emailjs from "@emailjs/browser";
 
 import {
   X,
@@ -150,7 +149,7 @@ const ContactModal = ({ onClose }) => {
 
   const validateEmailFormat = (email) => {
     const emailRegex =
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.(com|org|net|edu|gov|in|ca\.in)$/i;
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.(com|org|net|edu|gov|in|ca|ca\.in)$/i;
 
     return emailRegex.test(email);
   };
@@ -176,7 +175,10 @@ const ContactModal = ({ onClose }) => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
 
-    // Clear all previous errors
+    // =========================================
+    // CLEAR ALL PREVIOUS ERRORS
+    // =========================================
+
     setErrors({
       name: "",
       email: "",
@@ -207,6 +209,13 @@ const ContactModal = ({ onClose }) => {
       }));
 
       hasError = true;
+    } else if (name.length < 3) {
+      setErrors((prev) => ({
+        ...prev,
+        name: "Name must be greater than 3 characters.",
+      }));
+
+      hasError = true;
     } else if (name.length > 100) {
       setErrors((prev) => ({
         ...prev,
@@ -232,6 +241,7 @@ const ContactModal = ({ onClose }) => {
     // =========================================
     // EMAIL LENGTH
     // =========================================
+
     else if (email.length > 50) {
       setErrors((prev) => ({
         ...prev,
@@ -244,10 +254,12 @@ const ContactModal = ({ onClose }) => {
     // =========================================
     // EMAIL FORMAT
     // =========================================
+
     else if (!validateEmailFormat(email)) {
       setErrors((prev) => ({
         ...prev,
-        email: "Please enter a valid domain(.com,.in,.gov,.edu,.org,.ca).",
+        email:
+          "Please enter a valid domain(.com,.in,.gov,.edu,.org,.ca).",
       }));
 
       hasError = true;
@@ -295,27 +307,52 @@ const ContactModal = ({ onClose }) => {
     }
 
     // =========================================
-    // SEND EMAIL USING EMAILJS
+    // SEND EMAIL USING SMTP BACKEND
     // =========================================
 
     try {
       setLoading(true);
 
-      const fullPhone = phone ? `${countryCode} ${phone}` : "";
+      const fullPhone = phone
+        ? `${countryCode} ${phone}`
+        : "";
 
-      const response = await emailjs.send(
-        "service_xxrjjjn",
-        "template_i9q1xj5",
+      // =========================================
+      // SEND DATA TO EXPRESS BACKEND
+      // =========================================
+
+      const response = await fetch(
+        "http://localhost:9000/api/contact",
         {
-          name: name,
-          email: email,
-          phone: fullPhone,
-          message: message,
-        },
-        "y6remiBz2oGBevixD",
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            name,
+            email,
+            phone: fullPhone,
+            message,
+          }),
+        }
       );
 
-      console.log("Mail message:", response);
+      const data = await response.json();
+      console.log(data);
+
+      // =========================================
+      // CHECK BACKEND RESPONSE
+      // =========================================
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Failed to send message."
+        );
+      }
+
+      console.log("Mail sent:", data);
 
       // =========================================
       // SUCCESS
@@ -337,8 +374,15 @@ const ContactModal = ({ onClose }) => {
         phone: "",
         message: "",
       });
+
     } catch (error) {
-      console.error("EmailJS Error:", error);
+      console.error("SMTP Error:", error);
+
+      setErrors((prev) => ({
+        ...prev,
+        message:
+          "Unable to send your message. Please try again.",
+      }));
     } finally {
       setLoading(false);
     }
@@ -350,6 +394,7 @@ const ContactModal = ({ onClose }) => {
 
   return (
     <div className="contact-overlay">
+
       {/* BACKGROUND PARTICLES */}
 
       <div className="contact-particle particle-one"></div>
@@ -360,13 +405,18 @@ const ContactModal = ({ onClose }) => {
       {/* MODAL */}
 
       <div className="contact-modal">
+
         {/* Glow */}
 
         <div className="contact-modal-glow"></div>
 
         {/* CLOSE BUTTON */}
 
-        <button type="button" className="contact-close" onClick={closeModal}>
+        <button
+          type="button"
+          className="contact-close"
+          onClick={closeModal}
+        >
           <X size={20} />
         </button>
 
@@ -375,11 +425,14 @@ const ContactModal = ({ onClose }) => {
             {/* HEADER */}
 
             <div className="contact-header">
+
               <div className="contact-icon">
                 <Sparkles size={22} />
               </div>
 
-              <span className="contact-small-title">LET'S CONNECT</span>
+              <span className="contact-small-title">
+                LET'S CONNECT
+              </span>
 
               <h2>
                 Let's build something
@@ -387,22 +440,30 @@ const ContactModal = ({ onClose }) => {
               </h2>
 
               <p>
-                Have a project, idea, or just want to say hello? Drop us a
-                message.
+                Have a project, idea, or just want to say hello?
+                Drop us a message.
               </p>
+
             </div>
 
             {/* FORM */}
 
-            <form className="contact-form" onSubmit={handleSendMessage}>
+            <form
+              className="contact-form"
+              onSubmit={handleSendMessage}
+            >
+
               {/* NAME */}
 
               <div className="contact-field">
+
                 <label htmlFor="name">
-                  Your name <span className="required-star">*</span>
+                  Your name{" "}
+                  <span className="required-star">*</span>
                 </label>
 
                 <div className="input-wrapper">
+
                   <User size={12} />
 
                   <input
@@ -415,21 +476,30 @@ const ContactModal = ({ onClose }) => {
                     maxLength={100}
                     required
                   />
+
                 </div>
 
                 {/* NAME ERROR */}
 
-                {errors.name && <p className="contact-error">{errors.name}</p>}
+                {errors.name && (
+                  <p className="contact-error">
+                    {errors.name}
+                  </p>
+                )}
+
               </div>
 
               {/* EMAIL */}
 
               <div className="contact-field">
+
                 <label htmlFor="email">
-                  Email address <span className="required-star">*</span>
+                  Email address{" "}
+                  <span className="required-star">*</span>
                 </label>
 
                 <div className="input-wrapper">
+
                   <Mail size={12} />
 
                   <input
@@ -442,76 +512,86 @@ const ContactModal = ({ onClose }) => {
                     maxLength={50}
                     required
                   />
+
                 </div>
 
                 {/* EMAIL ERROR */}
 
                 {errors.email && (
-                  <p className="contact-error">{errors.email}</p>
+                  <p className="contact-error">
+                    {errors.email}
+                  </p>
                 )}
+
               </div>
 
               {/* PHONE - OPTIONAL */}
 
-              {/* PHONE - OPTIONAL */}
+              <div className="contact-field">
 
-<div className="contact-field">
+                <label htmlFor="phone">
+                  Phone number
+                  <span className="optional-label">
+                    {" "}
+                    (Optional)
+                  </span>
+                </label>
 
-  <label htmlFor="phone">
-    Phone number
-    <span className="optional-label"> (Optional)</span>
-  </label>
+                <div className="phone-input-wrapper">
 
-  <div className="phone-input-wrapper">
+                  {/* COUNTRY CODE */}
 
-    {/* PHONE ICON */}
-    <div className="phone-icon">
-      <Phone size={14} />
-    </div>
+                  <select
+                    name="countryCode"
+                    value={formData.countryCode}
+                    onChange={handleChange}
+                    className="country-select"
+                    aria-label="Country code"
+                  >
+                    <option value="+91">+91</option>
+                    <option value="+1-US">+1</option>
+                  </select>
 
-    {/* COUNTRY CODE */}
-    <select
-      name="countryCode"
-      value={formData.countryCode}
-      onChange={handleChange}
-      className="country-select"
-      aria-label="Country code"
-    >
-      <option value="+91">🇮🇳 +91</option>
-      <option value="+1-US">🇺🇸 +1</option>
-      <option value="+1-CA">🇨🇦 +1</option>
-    </select>
+                  <div className="phone-divider"></div>
 
-    {/* PHONE NUMBER */}
-    <input
-      id="phone"
-      type="tel"
-      name="phone"
-      placeholder="9876543210"
-      value={formData.phone}
-      onChange={handleChange}
-      maxLength={10}
-      inputMode="numeric"
-    />
+                  {/* PHONE NUMBER */}
 
-  </div>
+                  <input
+                    id="phone"
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    maxLength={10}
+                    inputMode="numeric"
+                  />
 
-  {/* PHONE ERROR */}
-  {errors.phone && (
-    <p className="contact-error">{errors.phone}</p>
-  )}
+                </div>
 
-</div>
+                {/* PHONE ERROR */}
+
+                {errors.phone && (
+                  <p className="contact-error">
+                    {errors.phone}
+                  </p>
+                )}
+
+              </div>
 
               {/* MESSAGE - OPTIONAL */}
 
               <div className="contact-field">
+
                 <label htmlFor="message">
                   Tell us about your idea
-                  <span className="optional-label"> (Optional)</span>
+                  <span className="optional-label">
+                    {" "}
+                    (Optional)
+                  </span>
                 </label>
 
                 <div className="input-wrapper textarea-wrapper">
+
                   <MessageSquare size={12} />
 
                   <textarea
@@ -523,13 +603,17 @@ const ContactModal = ({ onClose }) => {
                     rows="4"
                     maxLength={2000}
                   />
+
                 </div>
 
                 {/* MESSAGE ERROR */}
 
                 {errors.message && (
-                  <p className="contact-error">{errors.message}</p>
+                  <p className="contact-error">
+                    {errors.message}
+                  </p>
                 )}
+
               </div>
 
               {/* SEND BUTTON */}
@@ -539,14 +623,21 @@ const ContactModal = ({ onClose }) => {
                 className="contact-submit"
                 disabled={loading}
               >
-                <span>{loading ? "Sending..." : "Send Message"}</span>
+                <span>
+                  {loading
+                    ? "Sending..."
+                    : "Send Message"}
+                </span>
               </button>
+
             </form>
           </>
         ) : (
+
           /* SUCCESS SCREEN */
 
           <div className="contact-success">
+
             <div className="success-icon">
               <CheckCircle2 size={45} />
             </div>
@@ -554,8 +645,8 @@ const ContactModal = ({ onClose }) => {
             <h2>Message sent!</h2>
 
             <p>
-              Thanks for reaching out. Our team at Innovative Blossom will get
-              back to you soon.
+              Thanks for reaching out. Our team at
+              Innovative Blossom will get back to you soon.
             </p>
 
             <button
@@ -565,9 +656,12 @@ const ContactModal = ({ onClose }) => {
             >
               Done
             </button>
+
           </div>
         )}
+
       </div>
+
     </div>
   );
 };

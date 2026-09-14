@@ -5,6 +5,7 @@ import tech1 from "../images/tech1.jpg"
 import tech2 from "../images/tech2.jpg"
 import tech3 from "../images/tech3.jpg";
 
+
 const Technology = () => {
 
   const navigate = useNavigate();
